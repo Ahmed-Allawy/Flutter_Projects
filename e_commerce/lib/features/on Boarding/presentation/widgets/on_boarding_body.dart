@@ -4,8 +4,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:e_commerce/core/constants.dart';
 import 'package:e_commerce/core/utils/size_config.dart';
 import 'package:e_commerce/core/widgets/custom_buttons.dart';
+import 'package:e_commerce/features/Auth/presentation/pages/login/login_view.dart';
 import 'package:e_commerce/features/on%20Boarding/presentation/widgets/custom_page_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OnBoardingViewBody extends StatefulWidget {
   const OnBoardingViewBody({super.key});
@@ -74,6 +76,17 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                     ? 'Get Start'
                     : 'Next'
                 : 'Next',
+            onTap: () {
+              if (pageController!.page! < 2) {
+                pageController!.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeIn);
+              } else {
+                Get.to(() => const LoginView(),
+                    transition: Transition.rightToLeft,
+                    duration: const Duration(milliseconds: 500));
+              }
+            },
           ),
         ),
       ],
