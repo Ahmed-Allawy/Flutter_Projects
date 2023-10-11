@@ -45,16 +45,13 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                   color: Colors.transparent,
                   activeColor: kMainColor,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      side: BorderSide(color: kMainColor))),
+                      borderRadius: BorderRadius.all(Radius.circular(8)), side: BorderSide(color: kMainColor))),
             )),
         Positioned(
           top: SizeConfig.defaultSize! * 7,
           right: 32,
           child: Visibility(
-            visible: pageController!.hasClients
-                ? (pageController!.page == 2 ? false : true)
-                : true,
+            visible: pageController!.hasClients ? (pageController!.page == 2 ? false : true) : true,
             child: const Text(
               'Skip',
               style: TextStyle(
@@ -78,13 +75,10 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                 : 'Next',
             onTap: () {
               if (pageController!.page! < 2) {
-                pageController!.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeIn);
+                pageController!.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
               } else {
                 Get.to(() => const LoginView(),
-                    transition: Transition.rightToLeft,
-                    duration: const Duration(milliseconds: 500));
+                    transition: Transition.rightToLeft, duration: const Duration(milliseconds: 500));
               }
             },
           ),

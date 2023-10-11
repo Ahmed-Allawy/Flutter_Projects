@@ -29,7 +29,7 @@ class CompleteInformationBody extends StatelessWidget {
             ),
             VerticalSpace(5),
             GeneralcustomButton(
-              text: 'Login',
+              text: 'hahahaha',
             )
           ],
         ),
