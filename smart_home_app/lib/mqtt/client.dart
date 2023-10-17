@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element, avoid_print, constant_identifier_names
 
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
@@ -41,7 +42,7 @@ class MQTTClientWrapper {
       connectionState = MqttCurrentConnectionState.CONNECTING;
 
       /// i am here
-      await client!.connect('Ahmed-Allawy', 'Ahmed-Allawy-password');
+      await client!.connect(dotenv.env['USER_NAME']!, dotenv.env['PASSWORD']!);
     } on Exception catch (e) {
       print('client exception - $e');
       connectionState = MqttCurrentConnectionState.ERROR_WHEN_CONNECTING;
@@ -64,10 +65,8 @@ class MQTTClientWrapper {
   }
 
   void _setupMqttClient() {
-    client = MqttServerClient.withPort(
-        '682e58128e844617be6d3f57807aa235.s2.eu.hivemq.cloud',
-        'Ahmed-Allawy',
-        8883);
+    client = MqttServerClient.withPort(dotenv.env['URI']!,
+        dotenv.env['USER_NAME']!, int.parse(dotenv.env['PORT']!));
     // the next 2 lines are necessary to connect with tls, which is used by HiveMQ Cloud
     client!.secure = true;
     client!.securityContext = SecurityContext.defaultContext;
@@ -96,7 +95,8 @@ class MQTTClientWrapper {
     builder.addString(message);
 
     print('Publishing message "$message" to topic $topic');
-    client!.publishMessage(topic, MqttQos.exactlyOnce, builder.payload!);
+    client!.publishMessage(topic, MqttQos.exactlyOnce, builder.payload!,
+        retain: true);
   }
 
   // callbacks for different events

@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_home_app/features/room1/cobit/room1_cobit.dart';
 import 'package:smart_home_app/features/room1/room1.dart';
 import 'mqtt/client.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: "lib/.env");
   MQTTClientWrapper newclient = MQTTClientWrapper();
   newclient.prepareMqttClient().then((value) {
     runApp(MyApp(
