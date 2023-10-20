@@ -7,6 +7,7 @@ import 'package:smart_home_app/features/room1/cobit/room1_cobit.dart';
 import 'package:smart_home_app/mqtt/topics.dart';
 
 import '../../core/utils/assets.dart';
+import '../../core/widgets/deviceBox.dart';
 
 class Room1 extends StatefulWidget {
   const Room1({super.key});
@@ -71,14 +72,64 @@ class _Room1State extends State<Room1> {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Welcome back to home!'),
                   Text(
                     'Ahmed Allawy',
-                    style: GoogleFonts.oswald(),
+                    style: GoogleFonts.oswald(
+                        fontSize: 35, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Room Temperature',
+                        style: GoogleFonts.oswald(
+                          fontSize: 20,
+                        ),
+                      ),
+                      Text(
+                        'Room Homidity',
+                        style: GoogleFonts.oswald(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '36 C',
+                          style: GoogleFonts.oswald(
+                            fontSize: 25,
+                          ),
+                        ),
+                        Text(
+                          '25 %',
+                          style: GoogleFonts.oswald(
+                            fontSize: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Active devices',
+                    style: GoogleFonts.oswald(
+                      fontSize: 25,
+                    ),
                   ),
                 ],
-              ))
+              )),
+          // ActiveDevices(),
         ],
       )),
 //       appBar: AppBar(
@@ -123,6 +174,39 @@ class _Room1State extends State<Room1> {
     );
   }
 }
+
+class ActiveDevices extends StatelessWidget {
+  const ActiveDevices({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 400,
+      child: ListView.builder(
+          itemCount: 4,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 150,
+              ),
+              child: DeviceBox(
+                deviceImagePath: Assets.lumpImage,
+                deviceName: 'Lump 1',
+                deviceState: false,
+                onChange: (value) {
+                  print(value);
+                },
+              ),
+            );
+          }),
+    );
+  }
+}
+
 
 // class Room1 extends StatelessWidget {
 //   const Room1({super.key});
