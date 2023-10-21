@@ -1,7 +1,9 @@
+// ignore_for_file: file_names
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../utils/assets.dart';
 
 class DeviceBox extends StatelessWidget {
   const DeviceBox({
@@ -17,38 +19,42 @@ class DeviceBox extends StatelessWidget {
   final Function(bool?) onChange;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          color: const Color.fromARGB(255, 45, 44, 44)),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Image.asset(
-              deviceImagePath,
-              height: 80,
-              color: Colors.white,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: Colors.white,
+        ),
+        width: 150,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Image.asset(
+                deviceImagePath,
+                height: 80,
+                color: Colors.black,
+              ),
+              Row(
                 children: [
                   Expanded(
                     child: Text(
                       deviceName,
                       style:
-                          GoogleFonts.oswald(fontSize: 25, color: Colors.white),
+                          GoogleFonts.oswald(fontSize: 25, color: Colors.black),
                     ),
                   ),
-                  Switch(
-                      activeColor: Colors.green,
-                      value: deviceState,
-                      onChanged: onChange)
+                  Transform.rotate(
+                      angle: -pi / 2,
+                      child: Switch(
+                          activeColor: Colors.green,
+                          value: deviceState,
+                          onChanged: onChange))
                 ],
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

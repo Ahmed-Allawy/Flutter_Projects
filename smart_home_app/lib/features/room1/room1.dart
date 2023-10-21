@@ -44,94 +44,95 @@ class _Room1State extends State<Room1> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+          child: Stack(children: [
+        Image.asset(
+          Assets.livingRoomImage,
+          width: double.infinity,
+          fit: BoxFit.fill,
+          height: double.infinity,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0),
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                InkWell(
-                  borderRadius: BorderRadius.circular(40),
-                  // focusColor: const Color.fromARGB(255, 155, 13, 13),
-                  // hoverColor: Colors.black,
-                  onTap: () {},
-                  child: Image.asset(
-                    Assets.menuImage,
-                    height: 45,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Room Temperature',
+                      style: GoogleFonts.oswald(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      'Room Homidity',
+                      style: GoogleFonts.oswald(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 40.0,
+                  right: 40.0,
+                  bottom: 10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '36 C',
+                      style: GoogleFonts.oswald(
+                        fontSize: 25,
+                      ),
+                    ),
+                    Text(
+                      '25 %',
+                      style: GoogleFonts.oswald(
+                        fontSize: 25,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 10.0),
+                child: Text(
+                  'Room devices',
+                  style: GoogleFonts.oswald(
+                    fontSize: 25,
                   ),
                 ),
-                InkWell(
-                    borderRadius: BorderRadius.circular(40),
-                    onTap: () {},
-                    child: const Icon(Icons.person, size: 45))
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 150,
+                width: double.infinity,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 16,
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: DeviceBox(
+                            deviceImagePath: Assets.lumpImage,
+                            deviceName: 'Lump 1',
+                            deviceState: true,
+                            onChange: (value) {}),
+                      );
+                    }),
+              )
+            ],
           ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Welcome back to home!'),
-                  Text(
-                    'Ahmed Allawy',
-                    style: GoogleFonts.oswald(
-                        fontSize: 35, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Room Temperature',
-                        style: GoogleFonts.oswald(
-                          fontSize: 20,
-                        ),
-                      ),
-                      Text(
-                        'Room Homidity',
-                        style: GoogleFonts.oswald(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '36 C',
-                          style: GoogleFonts.oswald(
-                            fontSize: 25,
-                          ),
-                        ),
-                        Text(
-                          '25 %',
-                          style: GoogleFonts.oswald(
-                            fontSize: 25,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Active devices',
-                    style: GoogleFonts.oswald(
-                      fontSize: 25,
-                    ),
-                  ),
-                ],
-              )),
-          // ActiveDevices(),
-        ],
-      )),
+        ),
+      ])),
 //       appBar: AppBar(
 //         centerTitle: true,
 //         title: const Text("HIVEMQ broker (Smart Home)"),
