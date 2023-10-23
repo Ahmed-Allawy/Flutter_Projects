@@ -14,17 +14,14 @@ class BlurFilter extends StatelessWidget {
     return Stack(
       children: <Widget>[
         child,
-        ClipRect(
+        ClipRRect(
+          borderRadius: BorderRadius.circular(40),
           child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: sigmaX,
-              sigmaY: sigmaY,
-            ),
-            child: Opacity(
-              opacity: 0.01,
-              child: child,
-            ),
-          ),
+              filter: ImageFilter.blur(
+                sigmaX: sigmaX,
+                sigmaY: sigmaY,
+              ),
+              child: child),
         ),
       ],
     );
