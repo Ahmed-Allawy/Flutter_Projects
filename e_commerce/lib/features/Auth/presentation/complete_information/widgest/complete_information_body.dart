@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:e_commerce/core/widgets/custom_buttons.dart';
 import 'package:flutter/material.dart';
 
