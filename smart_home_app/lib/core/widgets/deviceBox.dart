@@ -24,7 +24,7 @@ class DeviceBox extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: const Color(0xff281600),
+          color: Color.fromARGB(255, 170, 123, 65),
         ),
         width: 140,
         child: Padding(
@@ -42,7 +42,7 @@ class DeviceBox extends StatelessWidget {
                     child: Text(
                       deviceName,
                       style:
-                          GoogleFonts.oswald(fontSize: 20, color: Colors.white),
+                          GoogleFonts.oswald(fontSize: 18, color: Colors.white),
                     ),
                   ),
                   Transform.rotate(

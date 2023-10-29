@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:smart_home_app/features/room1/cobit/room1_cobit.dart';
@@ -9,6 +10,7 @@ import 'package:smart_home_app/mqtt/topics.dart';
 import '../../core/utils/assets.dart';
 
 import '../../core/widgets/deviceBox.dart';
+import 'cobit/room1_state.dart';
 
 class Room1 extends StatefulWidget {
   const Room1({super.key});
@@ -22,6 +24,11 @@ class _Room1State extends State<Room1> {
   void initState() {
     // subscribe to topics
     ROOM1Cubit.get(context).subscribeToTopic(lump1Room1);
+    ROOM1Cubit.get(context).subscribeToTopic(airConditionerRoom1);
+     ROOM1Cubit.get(context).subscribeToTopic(tvRoom1);
+    ROOM1Cubit.get(context).subscribeToTopic(fanRoom1);
+     ROOM1Cubit.get(context).subscribeToTopic(humRoom1);
+    ROOM1Cubit.get(context).subscribeToTopic(temRoom1);
 
     ///listen to broker
     ROOM1Cubit.get(context)
@@ -30,13 +37,14 @@ class _Room1State extends State<Room1> {
         .updates!
         .listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
-
+      // final MqttPublishMessage recTopic = c[0].topic as MqttPublishMessage;
       ROOM1Cubit.get(context).listenToBroker(
-          MqttPublishPayload.bytesToStringAsString(recMess.payload.message));
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message),
+          c[0].topic);
 
       // print('YOU GOT A NEW MESSAGE:');
       // print('alla data isssss : ${c[0].topic}');
-      print('message from callback');
+      // print('message from callback');
     });
     super.initState();
   }
@@ -44,7 +52,10 @@ class _Room1State extends State<Room1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body:  BlocBuilder<ROOM1Cubit, ROOM1State>(
+        builder: (context, state) {
+          return
+      Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(Assets.livingRoomImage), fit: BoxFit.cover),
@@ -86,7 +97,7 @@ class _Room1State extends State<Room1> {
                             ),
                           ),
                           Text(
-                            'Room Homidity',
+                            'Room Humidity',
                             style: GoogleFonts.oswald(
                               fontSize: 20,
                               color: Colors.white,
@@ -101,14 +112,14 @@ class _Room1State extends State<Room1> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '36 C',
+                            '${ROOM1Cubit.get(context).temperature} C',
                             style: GoogleFonts.oswald(
                               fontSize: 25,
                               color: Colors.white,
                             ),
                           ),
                           Text(
-                            '25 %',
+                            '${ROOM1Cubit.get(context).humidity} %',
                             style: GoogleFonts.oswald(
                               fontSize: 25,
                               color: Colors.white,
@@ -135,7 +146,7 @@ class _Room1State extends State<Room1> {
                         width: double.infinity,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: 16,
+                            itemCount: ROOM1Cubit.get(context).devices.length,
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -144,10 +155,17 @@ class _Room1State extends State<Room1> {
                                   horizontal: 10.0,
                                 ),
                                 child: DeviceBox(
-                                    deviceImagePath: Assets.lumpImage,
-                                    deviceName: 'Lump 1',
-                                    deviceState: true,
-                                    onChange: (value) {}),
+                                    deviceImagePath: ROOM1Cubit.get(context)
+                                        .devices[index][0],
+                                    deviceName: ROOM1Cubit.get(context)
+                                        .devices[index][1],
+                                    deviceState: ROOM1Cubit.get(context)
+                                        .devices[index][2],
+                                    onChange: (value) {
+                                      ROOM1Cubit.get(context).publishData( ROOM1Cubit.get(context)
+                                        .devices[index][3], value.toString());
+                                        print('yes');
+                                    }),
                               );
                             }),
                       ),
@@ -156,7 +174,7 @@ class _Room1State extends State<Room1> {
                 ),
               ),
             ],
-          )),
+          ));})
 //       appBar: AppBar(
 //         centerTitle: true,
 //         title: const Text("HIVEMQ broker (Smart Home)"),

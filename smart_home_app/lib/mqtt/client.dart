@@ -1,10 +1,11 @@
 // ignore_for_file: unused_element, avoid_print, constant_identifier_names
 
 
+import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mqtt_client/mqtt_client.dart';
-// import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:mqtt_client/mqtt_browser_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
+// import 'package:mqtt_client/mqtt_browser_client.dart';
 
 
 // connection states for easy identification
@@ -19,8 +20,8 @@ enum MqttCurrentConnectionState {
 enum MqttSubscriptionState { IDLE, SUBSCRIBED }
 
 class MQTTClientWrapper {
-  // MqttServerClient? client;
-  MqttBrowserClient? client;
+  MqttServerClient? client;
+  // MqttBrowserClient? client;
 
   MqttCurrentConnectionState connectionState = MqttCurrentConnectionState.IDLE;
   MqttSubscriptionState subscriptionState = MqttSubscriptionState.IDLE;
@@ -68,14 +69,13 @@ class MQTTClientWrapper {
   }
 
   void _setupMqttClient() {
-    // client = MqttServerClient.withPort(dotenv.env['URI']!,
-    //     dotenv.env['USER_NAME']!, int.parse(dotenv.env['PORT']!));
-    // the next 2 lines are necessary to connect with tls, which is used by HiveMQ Cloud
-    // client!.secure = true;
-    // client!.securityContext = SecurityContext.defaultContext;
-    client =  MqttBrowserClient(dotenv.env['URI']!, 'clientIdentifier');
-    client!.port = int.parse(dotenv.env['PORT']!);
-    client!.websocketProtocols = MqttClientConstants.protocolsSingleDefault;
+    client = MqttServerClient.withPort(dotenv.env['URI']!,
+        dotenv.env['USER_NAME']!, int.parse(dotenv.env['PORT']!));
+    client!.secure = true;
+    client!.securityContext = SecurityContext.defaultContext;
+    // client =  MqttBrowserClient(dotenv.env['URI']!, 'clientIdentifier');
+    // client!.port = int.parse(dotenv.env['PORT']!);
+    // client!.websocketProtocols = MqttClientConstants.protocolsSingleDefault;
     client!.keepAlivePeriod = 20;
     client!.onDisconnected = _onDisconnected;
     client!.onConnected = _onConnected;

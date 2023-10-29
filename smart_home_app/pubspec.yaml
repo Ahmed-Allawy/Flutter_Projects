@@ -68,6 +68,9 @@ flutter:
   assets:
     - lib/.env
     - assets/icons/light-bulb.png
+    - assets/icons/fan.png
+    - assets/icons/smart-tv.png
+    - assets/icons/air-conditioner.png
     - assets/icons/menu.png
     - assets/images/living_room.jpg
 
