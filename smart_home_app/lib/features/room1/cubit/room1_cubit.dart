@@ -18,7 +18,7 @@ class ROOM1Cubit extends Cubit<ROOM1State> {
     [Assets.lumpImage, 'Lump 1', true, lump1Room1],
     [Assets.fanImage, 'Fan', false, fanRoom1],
     [Assets.airConditionerImage, 'Air Conditioner', false, airConditionerRoom1],
-    [Assets.tvImage, 'Lump 1', true, tvRoom1],
+    [Assets.tvImage, 'TV', true, tvRoom1],
   ];
   // String lump1State = '';
   // String tvState = '';

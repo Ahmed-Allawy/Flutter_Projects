@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:smart_home_app/features/room1/cobit/room1_cobit.dart';
+import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
+import 'package:smart_home_app/features/home/home.dart';
+import 'package:smart_home_app/features/room1/cubit/room1_cubit.dart';
 import 'package:smart_home_app/features/room1/room1.dart';
 import 'mqtt/client.dart';
 
@@ -28,10 +30,11 @@ class MyApp extends StatelessWidget {
     return mqttStatus!
         ? MultiBlocProvider(
             providers: [
+                BlocProvider(create: ((context) => HOMECUBIT())),
                 BlocProvider(create: ((context) => ROOM1Cubit(client!))),
               ],
             child:
-                MaterialApp(debugShowCheckedModeBanner: false, home: Room1()))
+                MaterialApp(debugShowCheckedModeBanner: false, home: Home()))
         : MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(

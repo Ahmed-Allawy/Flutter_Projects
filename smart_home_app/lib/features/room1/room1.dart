@@ -1,16 +1,18 @@
 // ignore_for_file: avoid_print
 
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mqtt_client/mqtt_client.dart';
-import 'package:smart_home_app/features/room1/cobit/room1_cobit.dart';
+import 'package:smart_home_app/features/room1/cubit/room1_cubit.dart';
 import 'package:smart_home_app/mqtt/topics.dart';
 
 import '../../core/utils/assets.dart';
 
 import '../../core/widgets/deviceBox.dart';
-import 'cobit/room1_state.dart';
+import 'cubit/room1_state.dart';
 
 class Room1 extends StatefulWidget {
   const Room1({super.key});
@@ -165,6 +167,7 @@ class _Room1State extends State<Room1> {
                                       ROOM1Cubit.get(context).publishData( ROOM1Cubit.get(context)
                                         .devices[index][3], value.toString());
                                         print('yes');
+                                       
                                     }),
                               );
                             }),
