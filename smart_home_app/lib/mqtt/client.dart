@@ -46,7 +46,8 @@ class MQTTClientWrapper {
       connectionState = MqttCurrentConnectionState.CONNECTING;
 
       /// i am here
-      await client!.connect(dotenv.env['USER_NAME']!, dotenv.env['PASSWORD']!);
+      // await client!.connect(dotenv.env['USER_NAME']!, dotenv.env['PASSWORD']!);
+      await client!.connect();
     } on Exception catch (e) {
       print('client exception - $e');
       connectionState = MqttCurrentConnectionState.ERROR_WHEN_CONNECTING;
@@ -71,8 +72,8 @@ class MQTTClientWrapper {
   void _setupMqttClient() {
     client = MqttServerClient.withPort(dotenv.env['URI']!,
         dotenv.env['USER_NAME']!, int.parse(dotenv.env['PORT']!));
-    client!.secure = true;
-    client!.securityContext = SecurityContext.defaultContext;
+    // client!.secure = true;
+    // client!.securityContext = SecurityContext.defaultContext;
     // client =  MqttBrowserClient(dotenv.env['URI']!, 'clientIdentifier');
     // client!.port = int.parse(dotenv.env['PORT']!);
     // client!.websocketProtocols = MqttClientConstants.protocolsSingleDefault;
