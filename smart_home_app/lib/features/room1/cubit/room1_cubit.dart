@@ -26,7 +26,7 @@ class ROOM1Cubit extends Cubit<ROOM1State> {
   // String airConditionerState = '';
   String temperature = '';
   String humidity = '';
-  int count = 0;
+  int numberOfActiveDevices = 0;
   void listenToBroker(String message, String topic) {
     if (topic == temRoom1) {
       this.temperature = message;
@@ -34,24 +34,33 @@ class ROOM1Cubit extends Cubit<ROOM1State> {
     if (topic == humRoom1) {
       this.humidity = message;
     }
+    if (topic == activeDevices) {
+      this.numberOfActiveDevices = int.parse(message);
+    }
     for (var device in devices) {
       if (topic == device[3]) {
-        if (message=='false') {
-           device[2] = false;
+        if (message == 'false') {
+          device[2] = false;
+        } else {
+          device[2] = true;
         }
-        else{
-           device[2] = true;
-        }
-       
       }
     }
-    print('done!');
     emit(ReceivedDataState());
+  }
+
+  void deviceActivated() {
+    numberOfActiveDevices++;
+    publishData(activeDevices, numberOfActiveDevices.toString());
+  }
+
+  void deviceDeactivated() {
+    numberOfActiveDevices--;
+    publishData(activeDevices, numberOfActiveDevices.toString());
   }
 
   void publishData(String topic, String message) {
     client.publishMessage(message, topic);
-    count++;
     emit(PublishState());
   }
 

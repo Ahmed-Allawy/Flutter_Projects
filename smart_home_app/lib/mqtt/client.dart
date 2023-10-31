@@ -1,12 +1,12 @@
 // ignore_for_file: unused_element, avoid_print, constant_identifier_names
 
-
-import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-// import 'package:mqtt_client/mqtt_browser_client.dart';
 
+
+import 'topics.dart';
+// import 'package:mqtt_client/mqtt_browser_client.dart';
 
 // connection states for easy identification
 enum MqttCurrentConnectionState {
@@ -30,9 +30,15 @@ class MQTTClientWrapper {
   Future<bool> prepareMqttClient() async {
     _setupMqttClient();
     String status = await _connectClient();
-    // _subscribeToTopic('Dart/Mqtt_client/testtopic');
-    // _publishMessage('Hello');
     if (status == 'connected') {
+      // subscribe to topics
+      subscribeToTopic(lump1Room1);
+      subscribeToTopic(airConditionerRoom1);
+      subscribeToTopic(tvRoom1);
+      subscribeToTopic(fanRoom1);
+      subscribeToTopic(humRoom1);
+      subscribeToTopic(temRoom1);
+      subscribeToTopic(activeDevices);
       return true;
     } else {
       return false;

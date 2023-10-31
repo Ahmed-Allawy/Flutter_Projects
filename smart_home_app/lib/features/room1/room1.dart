@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:smart_home_app/features/room1/cubit/room1_cubit.dart';
-import 'package:smart_home_app/mqtt/topics.dart';
+
 
 import '../../core/utils/assets.dart';
 
@@ -24,13 +24,7 @@ class Room1 extends StatefulWidget {
 class _Room1State extends State<Room1> {
   @override
   void initState() {
-    // subscribe to topics
-    ROOM1Cubit.get(context).subscribeToTopic(lump1Room1);
-    ROOM1Cubit.get(context).subscribeToTopic(airConditionerRoom1);
-     ROOM1Cubit.get(context).subscribeToTopic(tvRoom1);
-    ROOM1Cubit.get(context).subscribeToTopic(fanRoom1);
-     ROOM1Cubit.get(context).subscribeToTopic(humRoom1);
-    ROOM1Cubit.get(context).subscribeToTopic(temRoom1);
+   
 
     ///listen to broker
     ROOM1Cubit.get(context)
@@ -60,6 +54,7 @@ class _Room1State extends State<Room1> {
       Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
+               colorFilter: ColorFilter.srgbToLinearGamma(),
                 image: AssetImage(Assets.livingRoomImage), fit: BoxFit.cover),
           ),
           child: Column(
@@ -166,7 +161,13 @@ class _Room1State extends State<Room1> {
                                     onChange: (value) {
                                       ROOM1Cubit.get(context).publishData( ROOM1Cubit.get(context)
                                         .devices[index][3], value.toString());
-                                        print('yes');
+                                       if (value!) {
+                                        print('add one');
+                                         ROOM1Cubit.get(context).deviceActivated();
+                                       }
+                                       else{
+                                        ROOM1Cubit.get(context).deviceDeactivated();
+                                       }
                                        
                                     }),
                               );

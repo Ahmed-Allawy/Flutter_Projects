@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 import 'package:smart_home_app/core/utils/helperFunctions.dart';
+import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
+import 'package:smart_home_app/features/home/cubit/home_state.dart';
 import 'package:smart_home_app/features/room1/room1.dart';
 
 import '../../core/utils/assets.dart';
+import '../../core/widgets/roomsBox.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,6 +18,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    HOMECUBIT
+        .get(context)
+        .client
+        .client!
+        .updates!
+        .listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
+      HOMECUBIT.get(context).getActiveDevice(
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message),
+          c[0].topic);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,76 +94,66 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          nextScreen(context, Room1());
-                        },
-                        child: RoomsBox(
-                          roomImage: Assets.livingRoomImage,
-                          roomName: 'Living Room',
-                          numberOfDevices: 2,
-                        ),
+                BlocBuilder<HOMECUBIT, HOMESTATE>(
+                  builder: (context, state) {
+                    return Expanded(
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              nextScreen(context, Room1());
+                            },
+                            child: RoomsBox(
+                              roomImage: Assets.livingRoomImage,
+                              roomName: 'Living Room',
+                              numberOfDevices:
+                                  HOMECUBIT.get(context).numberOfActiveDevices,
+                              effect: true,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // nextScreen(context, Room1());
+                            },
+                            child: RoomsBox(
+                              roomImage: Assets.kitchenImage,
+                              roomName: 'Kitchen Room',
+                              numberOfDevices: 3,
+                              effect: false,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // nextScreen(context, Room1());
+                            },
+                            child: RoomsBox(
+                              roomImage: Assets.bedImage,
+                              roomName: 'Bed Room',
+                              numberOfDevices: 1,
+                              effect: false,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // nextScreen(context, Room1());
+                            },
+                            child: RoomsBox(
+                              roomImage: Assets.bathImage,
+                              roomName: 'Bath Room',
+                              numberOfDevices: 0,
+                              effect: true,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
           )),
-    );
-  }
-}
-
-class RoomsBox extends StatelessWidget {
-  RoomsBox({
-    super.key,
-    required this.roomImage,
-    required this.roomName,
-    required this.numberOfDevices,
-  });
-  final String roomImage;
-  final String roomName;
-  final int numberOfDevices;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-                colorFilter: ColorFilter.srgbToLinearGamma(),
-                image: AssetImage(roomImage),
-                fit: BoxFit.fill)),
-        child: Container(
-          padding: EdgeInsets.only(left: 10),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                transform: GradientRotation((22 / 7) / 2),
-                stops: [0.5, 0.9],
-                colors: [const Color.fromARGB(0, 74, 30, 30), Colors.black]),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text('Living Room',
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold)),
-              Text('Active devices: $numberOfDevices',
-                  style: TextStyle(
-                      fontSize: 13, color: Color.fromARGB(199, 255, 255, 255))),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
