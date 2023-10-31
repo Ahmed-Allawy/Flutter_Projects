@@ -29,6 +29,7 @@ class RoomsBox extends StatelessWidget {
           padding: EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
             gradient: LinearGradient(
+             
                 transform: GradientRotation((22 / 7) / 2),
                 stops: [0.5, 0.9],
                 colors: [const Color.fromARGB(0, 74, 30, 30), Colors.black]),

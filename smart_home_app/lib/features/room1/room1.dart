@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mqtt_client/mqtt_client.dart';
+import 'package:smart_home_app/core/utils/helperFunctions.dart';
+import 'package:smart_home_app/features/home/home.dart';
 import 'package:smart_home_app/features/room1/cubit/room1_cubit.dart';
 
 import '../../core/utils/assets.dart';
@@ -53,6 +55,9 @@ class _Room1State extends State<Room1> {
     return Scaffold(
        extendBodyBehindAppBar: true,
         appBar: AppBar(
+          leading: BackButton(onPressed: (){
+            nextScreenRep(context, Home());
+          },),
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(

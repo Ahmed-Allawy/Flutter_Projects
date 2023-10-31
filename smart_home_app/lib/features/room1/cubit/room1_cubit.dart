@@ -25,8 +25,8 @@ class ROOM1Cubit extends Cubit<ROOM1State> {
   // String tvState = '';
   // String fanState = '';
   // String airConditionerState = '';
-  String temperature = '';
-  String humidity = '';
+  String temperature = '28';
+  String humidity = '65';
 
   void listenToBroker(String message, String topic) {
     if (topic == temRoom1) {
