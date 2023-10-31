@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mqtt_client/mqtt_client.dart';
 import 'package:smart_home_app/core/utils/helperFunctions.dart';
 import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
 import 'package:smart_home_app/features/home/cubit/home_state.dart';
@@ -20,17 +19,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    HOMECUBIT
-        .get(context)
-        .client
-        .client!
-        .updates!
-        .listen((List<MqttReceivedMessage<MqttMessage>> c) {
-      final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
-      HOMECUBIT.get(context).getActiveDevice(
-          MqttPublishPayload.bytesToStringAsString(recMess.payload.message),
-          c[0].topic);
-    });
     super.initState();
   }
 
@@ -109,7 +97,7 @@ class _HomeState extends State<Home> {
                               roomImage: Assets.livingRoomImage,
                               roomName: 'Living Room',
                               numberOfDevices:
-                                  HOMECUBIT.get(context).numberOfActiveDevices,
+                                  HOMECUBIT.get(context).getActiveDevice(),
                               effect: true,
                             ),
                           ),
@@ -120,7 +108,7 @@ class _HomeState extends State<Home> {
                             child: RoomsBox(
                               roomImage: Assets.kitchenImage,
                               roomName: 'Kitchen Room',
-                              numberOfDevices: 3,
+                              numberOfDevices: '3',
                               effect: false,
                             ),
                           ),
@@ -131,7 +119,7 @@ class _HomeState extends State<Home> {
                             child: RoomsBox(
                               roomImage: Assets.bedImage,
                               roomName: 'Bed Room',
-                              numberOfDevices: 1,
+                              numberOfDevices: '1',
                               effect: false,
                             ),
                           ),
@@ -142,7 +130,7 @@ class _HomeState extends State<Home> {
                             child: RoomsBox(
                               roomImage: Assets.bathImage,
                               roomName: 'Bath Room',
-                              numberOfDevices: 0,
+                              numberOfDevices: '0',
                               effect: true,
                             ),
                           ),

@@ -5,7 +5,6 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 
-import 'topics.dart';
 // import 'package:mqtt_client/mqtt_browser_client.dart';
 
 // connection states for easy identification
@@ -32,13 +31,7 @@ class MQTTClientWrapper {
     String status = await _connectClient();
     if (status == 'connected') {
       // subscribe to topics
-      subscribeToTopic(lump1Room1);
-      subscribeToTopic(airConditionerRoom1);
-      subscribeToTopic(tvRoom1);
-      subscribeToTopic(fanRoom1);
-      subscribeToTopic(humRoom1);
-      subscribeToTopic(temRoom1);
-      subscribeToTopic(activeDevices);
+     
       return true;
     } else {
       return false;
@@ -108,7 +101,7 @@ class MQTTClientWrapper {
     builder.addString(message);
 
     print('Publishing message "$message" to topic $topic');
-    client!.publishMessage(topic, MqttQos.exactlyOnce, builder.payload!,
+    client!.publishMessage(topic, MqttQos.atMostOnce, builder.payload!,
         retain: true);
   }
 

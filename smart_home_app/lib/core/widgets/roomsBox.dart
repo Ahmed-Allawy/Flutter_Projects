@@ -10,7 +10,7 @@ class RoomsBox extends StatelessWidget {
   });
   final String roomImage;
   final String roomName;
-  final int numberOfDevices;
+  final String numberOfDevices;
   final bool effect;
   @override
   Widget build(BuildContext context) {

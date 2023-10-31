@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:smart_home_app/core/network/cach_helper.dart';
 import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
 import 'package:smart_home_app/features/home/home.dart';
 import 'package:smart_home_app/features/room1/cubit/room1_cubit.dart';
@@ -11,6 +12,7 @@ import 'mqtt/client.dart';
 void main() async {
   await dotenv.load(fileName: "lib/.env");
   MQTTClientWrapper newclient = MQTTClientWrapper();
+  CacheHelper.init();
   newclient.prepareMqttClient().then((value) {
     runApp(MyApp(
       client: newclient,
