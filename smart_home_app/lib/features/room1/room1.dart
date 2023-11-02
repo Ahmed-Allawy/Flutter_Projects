@@ -6,13 +6,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:smart_home_app/core/utils/helperFunctions.dart';
 import 'package:smart_home_app/features/home/home.dart';
-import 'package:smart_home_app/features/room1/cubit/room1_cubit.dart';
+import 'package:smart_home_app/features/livingRoom/cubit/room1_cubit.dart';
 
 import '../../core/utils/assets.dart';
 
 import '../../core/widgets/deviceBox.dart';
 import '../../mqtt/topics.dart';
-import 'cubit/room1_state.dart';
+import '../livingRoom/cubit/room1_state.dart';
 
 class Room1 extends StatefulWidget {
   const Room1({super.key});

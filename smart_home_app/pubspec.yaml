@@ -44,6 +44,7 @@ dependencies:
   blurrycontainer: ^1.0.2
   shared_preferences: ^2.2.2
   syncfusion_flutter_charts: ^23.1.43
+  gauge_indicator: ^0.4.3
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,7 @@ flutter:
     - assets/images/kitchen.jpeg
     - assets/images/bedroom.jpg
     - assets/images/bathroom.jpg
+    - assets/images/living_room_blured.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

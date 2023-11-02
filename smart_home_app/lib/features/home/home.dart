@@ -5,10 +5,12 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:smart_home_app/core/utils/helperFunctions.dart';
 import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
 import 'package:smart_home_app/features/home/cubit/home_state.dart';
+import 'package:smart_home_app/features/livingRoom/livingRoom.dart';
 import 'package:smart_home_app/features/room1/room1.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../core/utils/assets.dart';
+import '../../core/widgets/chart.dart';
 import '../../core/widgets/roomsBox.dart';
 import '../../mqtt/topics.dart';
 
@@ -172,7 +174,7 @@ class _HomeState extends State<Home> {
                           ),
                           InkWell(
                             onTap: () {
-                              // nextScreen(context, Room1());
+                              nextScreen(context, LivingRoom());
                             },
                             child: RoomsBox(
                               roomImage: Assets.bathImage,
@@ -188,35 +190,10 @@ class _HomeState extends State<Home> {
                 ),
                 BlocBuilder<HOMECUBIT, HOMESTATE>(
                   builder: (context, state) {
-                    return SizedBox(
-                        width: double.infinity,
-                        height: 170,
-                        child: SfCartesianChart(
-                          series: <LineSeries<LiveData, int>>[
-                            LineSeries<LiveData, int>(
-                              onRendererCreated:
-                                  (ChartSeriesController controller) {
-                                HOMECUBIT.get(context).chartSeriesController =
-                                    controller;
-                              },
-                              dataSource: HOMECUBIT.get(context).chartData,
-                              color: Color.fromARGB(255, 221, 52, 26),
-                              xValueMapper: (LiveData sales, _) => sales.time,
-                              yValueMapper: (LiveData sales, _) => sales.temp,
-                            ),
-                          ],
-                          primaryXAxis: NumericAxis(
-                              majorGridLines: const MajorGridLines(width: 0),
-                              edgeLabelPlacement: EdgeLabelPlacement.shift,
-                              interval: 3,
-                              title: AxisTitle(text: 'Time (seconds)', textStyle: TextStyle(color: Colors.white))),
-                          primaryYAxis: NumericAxis(
-                              axisLine: const AxisLine(width: 0),
-                              majorTickLines: const MajorTickLines(size: 0),
-                              title: AxisTitle(
-                                  text: 'Temperature',
-                                  textStyle: TextStyle(color: Colors.white))),
-                        ));
+                    return chart(
+                      label: 'Temperature',
+                      chartData: HOMECUBIT.get(context).chartData,
+                    );
                   },
                 ),
                 // SizedBox(

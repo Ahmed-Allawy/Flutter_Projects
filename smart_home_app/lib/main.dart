@@ -6,7 +6,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_home_app/core/network/cach_helper.dart';
 import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
 import 'package:smart_home_app/features/home/home.dart';
-import 'package:smart_home_app/features/room1/cubit/room1_cubit.dart';
+
+
+import 'package:smart_home_app/features/livingRoom/cubit/room1_cubit.dart';
+
 import 'mqtt/client.dart';
 
 void main() async {

@@ -19,44 +19,40 @@ class DeviceBox extends StatelessWidget {
   final Function(bool?) onChange;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Color.fromARGB(255, 170, 123, 65),
-        ),
-        width: 140,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Image.asset(
-                deviceImagePath,
-                height: 70,
-                color: Colors.white,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      deviceName,
-                      style:
-                          GoogleFonts.oswald(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                  Transform.rotate(
-                      angle: -pi / 2,
-                      child: Switch(
-                          activeColor: Colors.green,
-                          value: deviceState,
-                          onChanged: onChange))
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return   Card(
+                        shape: ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.circular(60)),
+                        color: Color.fromARGB(230, 170, 123, 60),
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                deviceImagePath,
+                                height: 70,
+                                color: Colors.white,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      deviceName,
+                                      style: GoogleFonts.oswald(
+                                          fontSize: 18, color: Colors.white),
+                                    ),
+                                  ),
+                                  Transform.rotate(
+                                      angle: -pi / 2,
+                                      child: Switch(
+                                          activeColor: Colors.green,
+                                          value: deviceState,
+                                          onChanged: onChange))
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
   }
 }
