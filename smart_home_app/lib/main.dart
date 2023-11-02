@@ -10,6 +10,7 @@ import 'package:smart_home_app/features/home/home.dart';
 
 import 'package:smart_home_app/features/livingRoom/cubit/room1_cubit.dart';
 
+import 'features/livingRoom/livingRoom.dart';
 import 'mqtt/client.dart';
 
 void main() async {

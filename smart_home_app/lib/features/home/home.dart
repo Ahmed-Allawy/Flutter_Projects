@@ -6,8 +6,6 @@ import 'package:smart_home_app/core/utils/helperFunctions.dart';
 import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
 import 'package:smart_home_app/features/home/cubit/home_state.dart';
 import 'package:smart_home_app/features/livingRoom/livingRoom.dart';
-import 'package:smart_home_app/features/room1/room1.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../core/utils/assets.dart';
 import '../../core/widgets/chart.dart';
@@ -140,7 +138,7 @@ class _HomeState extends State<Home> {
                         children: [
                           InkWell(
                             onTap: () {
-                              nextScreen(context, Room1());
+                              nextScreen(context, LivingRoom());
                             },
                             child: RoomsBox(
                               roomImage: Assets.livingRoomImage,
