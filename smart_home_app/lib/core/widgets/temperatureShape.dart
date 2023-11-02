@@ -3,8 +3,8 @@ import 'package:gauge_indicator/gauge_indicator.dart';
 
 class TempShape extends StatefulWidget {
   const TempShape({super.key, required this.tValue, required this.hValue});
-final String tValue;
-final String hValue;
+  final String tValue;
+  final String hValue;
   @override
   State<TempShape> createState() => _TempShapeState();
 }
@@ -40,8 +40,8 @@ class _TempShapeState extends State<TempShape> {
           background: Colors.transparent,
           segmentSpacing: 6,
         ),
-        progressBar: const GaugeProgressBar.rounded(
-          color: Color.fromARGB(255, 189, 9, 9),
+        progressBar:  GaugeProgressBar.rounded(
+          color: getColor(double.parse(widget.tValue)),
         ),
 
         /// Define axis segments (optional).
@@ -105,5 +105,19 @@ class _TempShapeState extends State<TempShape> {
         );
       },
     );
+  }
+
+  Color getColor(double value) {
+    if (value < 21) {
+      return Colors.white;
+    } else if (value >= 21 && value < 51) {
+      return Colors.blue;
+    }
+    else if (value >= 51 && value <=75) {
+      return Colors.yellow;
+    }
+    else  {
+      return Colors.red;
+    }
   }
 }
