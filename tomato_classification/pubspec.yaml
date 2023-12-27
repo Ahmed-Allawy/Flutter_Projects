@@ -1,0 +1,55 @@
+name: tomato_classification
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.5 <4.0.0'
+
+
+dependencies:
+  
+  flutter:
+    sdk: flutter
+  image: ^4.0.17
+  path: ^1.8.3
+  path_provider: ^2.0.15
+  image_picker: ^0.8.8
+  http: ^0.13.4
+ 
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+ 
+  flutter_lints: ^2.0.0
+
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/models/
+ 
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+flutter_launcher_icons:
+  image_path: "assets/images/logo.png"
+  android: "ic_launcher"
+  ios: true
+  remove_alpha_ios: true
