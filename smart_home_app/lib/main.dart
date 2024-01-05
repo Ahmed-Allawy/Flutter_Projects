@@ -7,7 +7,6 @@ import 'package:smart_home_app/core/network/cach_helper.dart';
 import 'package:smart_home_app/features/home/cubit/home_cubit.dart';
 import 'package:smart_home_app/features/home/home.dart';
 
-
 import 'package:smart_home_app/features/livingRoom/cubit/room1_cubit.dart';
 
 import 'features/livingRoom/livingRoom.dart';
@@ -38,8 +37,7 @@ class MyApp extends StatelessWidget {
                 BlocProvider(create: ((context) => HOMECUBIT(client!))),
                 BlocProvider(create: ((context) => ROOM1Cubit(client!))),
               ],
-            child:
-                MaterialApp(debugShowCheckedModeBanner: false, home: Home()))
+            child: MaterialApp(debugShowCheckedModeBanner: false, home: Home()))
         : MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(

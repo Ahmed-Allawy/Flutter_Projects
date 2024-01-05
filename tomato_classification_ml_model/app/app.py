@@ -37,39 +37,39 @@ def index():
 @app.route('/<project>/detect/iterations/<publishedName>/image/nostore', methods=['POST'])
 def predict_image_handler(project=None, publishedName=None):
     try:
-        # imageData = None
-        # if ('imageData' in request.files):
-        #     imageData = request.files['imageData']
-        # elif ('imageData' in request.form):
-        #     imageData = request.form['imageData']
-        # else:
-        #     imageData = io.BytesIO(request.get_data())
+        imageData = None
+        if ('imageData' in request.files):
+            imageData = request.files['imageData']
+        elif ('imageData' in request.form):
+            imageData = request.form['imageData']
+        else:
+            imageData = io.BytesIO(request.get_data())
 
-        # img = Image.open(imageData)
+        img = Image.open(imageData)
         
 
-        if 'image' not in request.json:
-            return jsonify({'error': 'No image uploaded'})
+        # if 'image' not in request.json:
+        #     return jsonify({'error': 'No image uploaded'})
 
-        # Get the image data from the request
-        image_data = request.json
-        image_data = image_data.get('image')
-        # # Remove the prefix and decode the base64 data
-        # # Decode the base64 image data and convert it to OpenCV format
-        # _, encoded_image = image_data.split(",", 1)
-        # img = cv2.imdecode(np.frombuffer(base64.b64decode(encoded_image), np.uint8), -1)
-        # print(type(img))
+        # # Get the image data from the request
+        # image_data = request.json
+        # image_data = image_data.get('image')
+        # # # Remove the prefix and decode the base64 data
+        # # # Decode the base64 image data and convert it to OpenCV format
+        # # _, encoded_image = image_data.split(",", 1)
+        # # img = cv2.imdecode(np.frombuffer(base64.b64decode(encoded_image), np.uint8), -1)
+        # # print(type(img))
 
-            # Remove the data URL scheme from the base64 string
-        base64_string = image_data.replace('data:image/png;base64,', '')
-        print(base64_string)
-        # Decode the base64 string into bytes
-        image_bytes = base64.b64decode(base64_string)
-        # Create a BytesIO object to wrap the image bytes
-        image_buffer = io.BytesIO(image_bytes)
+        #     # Remove the data URL scheme from the base64 string
+        # base64_string = image_data.replace('data:image/png;base64,', '')
+        # print(base64_string)
+        # # Decode the base64 string into bytes
+        # image_bytes = base64.b64decode(base64_string)
+        # # Create a BytesIO object to wrap the image bytes
+        # image_buffer = io.BytesIO(image_bytes)
 
-        # Open the image buffer with PIL and return the image
-        img = Image.open(image_buffer)
+        # # Open the image buffer with PIL and return the image
+        # img = Image.open(image_buffer)
         results = predict_image(img)
         return jsonify(results)
     except Exception as e:
