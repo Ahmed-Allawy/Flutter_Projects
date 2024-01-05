@@ -18,6 +18,7 @@ dependencies:
   path_provider: ^2.0.15
   image_picker: ^0.8.8
   http: ^0.13.4
+  syncfusion_flutter_charts: ^23.1.43
  
   cupertino_icons: ^1.0.2
 
