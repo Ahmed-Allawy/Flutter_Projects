@@ -1,0 +1,12 @@
+# python3 -m venv .venv
+# .venv\Scripts\activate.bat
+# pip install -r requirements.txt
+
+
+Flask
+# tflite-runtime
+tensorflow
+Pillow
+numpy
+flask_cors
+opencv-python
