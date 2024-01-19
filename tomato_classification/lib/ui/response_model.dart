@@ -21,14 +21,14 @@ class Prediction {
   }
 }
 
-class MyObject {
+class ApiModel {
   final String created;
   final String id;
   final String iteration;
   final List<Prediction> predictions;
   final String project;
 
-  MyObject({
+  ApiModel({
     required this.created,
     required this.id,
     required this.iteration,
@@ -36,8 +36,8 @@ class MyObject {
     required this.project,
   });
 
-  factory MyObject.fromJson(Map<String, dynamic> json) {
-    return MyObject(
+  factory ApiModel.fromJson(Map<String, dynamic> json) {
+    return ApiModel(
       created: json['created'],
       id: json['id'],
       iteration: json['iteration'],

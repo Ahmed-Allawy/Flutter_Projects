@@ -17,7 +17,7 @@ class ModelPrediction extends StatefulWidget {
 }
 
 class _ModelPredictionState extends State<ModelPrediction> {
-  MyObject? response;
+  ApiModel? response;
   bool isLoading = true;
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _ModelPredictionState extends State<ModelPrediction> {
 
     uploadImage().then((value) {
       setState(() {
-        response = MyObject.fromJson(jsonDecode(value));
+        response = ApiModel.fromJson(jsonDecode(value));
         isLoading = false;
       });
     });
@@ -71,7 +71,7 @@ class _ModelPredictionState extends State<ModelPrediction> {
   Future<String> uploadImage() async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://192.168.1.8:80/image'),
+      Uri.parse('http://192.168.1.5:80/image'),
     );
 
     request.files.add(await http.MultipartFile.fromPath(

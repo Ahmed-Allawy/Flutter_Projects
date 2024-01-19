@@ -9,4 +9,4 @@ tensorflow
 Pillow
 numpy
 flask_cors
-opencv-python
+sktime==0.19.1
