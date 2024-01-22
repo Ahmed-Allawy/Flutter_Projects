@@ -1,14 +1,14 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/src/services/keyboard_key.g.dart';
-import 'package:flutter/src/services/raw_keyboard.dart';
-
+import 'package:flame_2d_game/check_collision.dart';
+import 'package:flame_2d_game/player_hitbox.dart';
+import 'package:flutter/services.dart';
+import '../collision_block.dart';
 import '../my_game.dart';
 
 enum PlayerState { idle, running, fall, hit, jump }
-
-enum PlayerDirection { right, left, none }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<MyGame>, KeyboardHandler {
@@ -20,36 +20,51 @@ class Player extends SpriteAnimationGroupComponent
   late SpriteAnimation hitAnimation;
   late SpriteAnimation jumpAnimation;
   late String characterName;
+  int dx = 0;
   final double moveSpeed = 100;
+  final double gravity = 20.8;
+  final double jumpForce = 400;
+  final double terminalYvelocity = 300;
+  bool hasJumped = false;
+  bool isGround = false;
   Vector2 velocity = Vector2.zero();
-  PlayerDirection playerDirection = PlayerDirection.none;
   bool isFaceRight = true;
+  List<CollisionBlock> collisionBlocks = [];
+  PlayerHitBox hitBox =
+      PlayerHitBox(offsetX: 10, offsetY: 4, width: 13, height: 26);
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
+    add(RectangleHitbox(
+        position: Vector2(hitBox.offsetX, hitBox.offsetY),
+        size: Vector2(hitBox.width, hitBox.height)));
+    // debugMode = true;
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
+    _updatePlayerState();
     _updatePlayerPosition(dt);
+    _checkHorizontalCollision();
+    _applyGravity(dt);
+    _checkVerticalCollision();
     super.update(dt);
   }
 
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    dx = 0;
     final isRightKeyPressed =
         keysPressed.contains(LogicalKeyboardKey.arrowRight);
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.arrowLeft);
-    if (isRightKeyPressed && isLeftKeyPressed) {
-      playerDirection = PlayerDirection.none;
-    } else if (isRightKeyPressed) {
-      playerDirection = PlayerDirection.right;
-    } else if (isLeftKeyPressed) {
-      playerDirection = PlayerDirection.left;
-    } else {
-      playerDirection = PlayerDirection.none;
-    }
+    dx = isRightKeyPressed
+        ? 1
+        : isLeftKeyPressed
+            ? -1
+            : 0;
+
+    hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
     return super.onKeyEvent(event, keysPressed);
   }
 
@@ -78,30 +93,98 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerPosition(double dt) {
-    double dx = 0.0;
-    switch (playerDirection) {
-      case PlayerDirection.right:
-        if (!isFaceRight) {
-          flipHorizontallyAroundCenter();
-          isFaceRight = true;
-        }
-        current = PlayerState.running;
-        dx += moveSpeed;
-        break;
-      case PlayerDirection.left:
-        if (isFaceRight) {
-          flipHorizontallyAroundCenter();
-          isFaceRight = false;
-        }
-        current = PlayerState.running;
-        dx -= moveSpeed;
-        break;
-      case PlayerDirection.none:
-        current = PlayerState.idle;
-        break;
-      default:
+    // horizontal position
+    velocity.x = dx * moveSpeed;
+    position.x += velocity.x * dt;
+
+    // if (velocity.y > gravity) {
+    //   isGround = false;
+    // }
+    //vertical position
+    if (hasJumped && isGround) {
+      velocity.y = -jumpForce;
+      position.y += velocity.y * dt;
+      isGround = false;
+      hasJumped = false;
     }
-    velocity = Vector2(dx, 0.0);
-    position += velocity * dt;
+  }
+
+  void _updatePlayerState() {
+    // if (dx != 0) {
+    //   current = PlayerState.running;
+    // } else {
+    //   current = PlayerState.idle;
+    // }
+    if (velocity.y > 0) {
+      current = PlayerState.fall;
+    } else if (velocity.y < 0) {
+      current = PlayerState.jump;
+    } else if (dx != 0) {
+      current = PlayerState.running;
+      if (dx == -1 && isFaceRight == true) {
+        flipHorizontallyAroundCenter();
+        isFaceRight = false;
+      }
+      if (dx == 1 && isFaceRight == false) {
+        flipHorizontallyAroundCenter();
+        isFaceRight = true;
+      }
+    } else {
+      current = PlayerState.idle;
+    }
+  }
+
+  void _checkHorizontalCollision() {
+    for (var block in collisionBlocks) {
+      if (!block.isPlatform) {
+        if (isCollision(this, block)) {
+          if (velocity.x > 0) {
+            velocity.x = 0;
+            position.x = block.x - hitBox.width - hitBox.offsetX;
+            break;
+          }
+          if (velocity.x < 0) {
+            velocity.x = 0;
+            position.x = block.x + block.width + hitBox.width + hitBox.offsetX;
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  void _applyGravity(double dt) {
+    velocity.y += gravity;
+    velocity.y = velocity.y.clamp(-jumpForce, terminalYvelocity);
+    position.y += velocity.y * dt;
+  }
+
+  void _checkVerticalCollision() {
+    for (var block in collisionBlocks) {
+      if (!block.isPlatform) {
+        if (isCollision(this, block)) {
+          if (velocity.y > 0) {
+            velocity.y = 0;
+            position.y = block.y - hitBox.height - hitBox.offsetY;
+            isGround = true;
+            break;
+          }
+          if (velocity.y < 0) {
+            velocity.y = 0;
+            position.y = block.y + block.height;
+            break;
+          }
+        }
+      } else {
+        if (isCollision(this, block)) {
+          if (velocity.y > 0) {
+            velocity.y = 0;
+            position.y = block.y - height;
+            isGround = true;
+            break;
+          }
+        }
+      }
+    }
   }
 }

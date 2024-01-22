@@ -9,15 +9,15 @@ import 'package:flutter/painting.dart';
 class MyGame extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks {
   late final CameraComponent cam;
-  final Player player = Player(characterName: 'Ninja Frog');
+  final Player player = Player(characterName: 'Mask Dude');
   late final JoystickComponent joystick;
-  bool isPC = false;
+  bool isPC = true;
   @override
   Color backgroundColor() => const Color(0xFF211F30);
   @override
   Future<void> onLoad() async {
     await images.loadAllImages();
-    final level = Level(levelName: 'Level-02', player: player);
+    final level = Level(levelName: 'Level-01', player: player);
     cam = CameraComponent.withFixedResolution(
         width: 640, height: 368, world: level);
     cam.viewfinder.anchor = Anchor.topLeft;
@@ -55,15 +55,15 @@ class MyGame extends FlameGame
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
-        player.playerDirection = PlayerDirection.right;
+        player.dx = 1;
         break;
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
-        player.playerDirection = PlayerDirection.left;
+        player.dx = -1;
         break;
       default:
-        player.playerDirection = PlayerDirection.none;
+        player.dx = 0;
     }
   }
 }
