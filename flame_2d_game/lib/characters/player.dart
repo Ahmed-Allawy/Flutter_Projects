@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_2d_game/check_collision.dart';
-import 'package:flame_2d_game/player_hitbox.dart';
+import 'package:flame_2d_game/custom_hitbox.dart';
+import 'package:flame_2d_game/fruit.dart';
 import 'package:flutter/services.dart';
 import '../collision_block.dart';
 import '../my_game.dart';
@@ -11,7 +12,7 @@ import '../my_game.dart';
 enum PlayerState { idle, running, fall, hit, jump }
 
 class Player extends SpriteAnimationGroupComponent
-    with HasGameRef<MyGame>, KeyboardHandler {
+    with HasGameRef<MyGame>, KeyboardHandler, CollisionCallbacks {
   Player({position, this.characterName = 'Mask Dude'})
       : super(position: position);
   late SpriteAnimation idleAnimation;
@@ -30,8 +31,8 @@ class Player extends SpriteAnimationGroupComponent
   Vector2 velocity = Vector2.zero();
   bool isFaceRight = true;
   List<CollisionBlock> collisionBlocks = [];
-  PlayerHitBox hitBox =
-      PlayerHitBox(offsetX: 10, offsetY: 4, width: 13, height: 26);
+  CustomHitBox hitBox =
+      CustomHitBox(offsetX: 10, offsetY: 4, width: 13, height: 26);
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
@@ -66,6 +67,14 @@ class Player extends SpriteAnimationGroupComponent
 
     hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
     return super.onKeyEvent(event, keysPressed);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Fruit) {
+      other.collisionWithPlayer();
+    }
+    super.onCollision(intersectionPoints, other);
   }
 
   void _loadAllAnimations() {
@@ -172,6 +181,7 @@ class Player extends SpriteAnimationGroupComponent
           if (velocity.y < 0) {
             velocity.y = 0;
             position.y = block.y + block.height;
+            isGround = true;
             break;
           }
         }

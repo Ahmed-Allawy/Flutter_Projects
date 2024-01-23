@@ -4,9 +4,11 @@ import 'package:flame/components.dart';
 import 'package:flame_2d_game/background.dart';
 import 'package:flame_2d_game/characters/player.dart';
 import 'package:flame_2d_game/collision_block.dart';
+import 'package:flame_2d_game/fruit.dart';
+import 'package:flame_2d_game/my_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-class Level extends World {
+class Level extends World with HasGameRef<MyGame> {
   Level({required this.levelName, required this.player});
   late final String levelName;
   late TiledComponent level;
@@ -18,7 +20,7 @@ class Level extends World {
     // level.anchor = Anchor.center;
     add(level);
     _spwanObjects();
-    _addCollisionsBlocks();
+    _addCollisionBlocks();
     _scrollBackground();
     player.collisionBlocks = collisionBlocks;
     return super.onLoad();
@@ -33,13 +35,20 @@ class Level extends World {
             player.position = Vector2(spawnPoint.x, spawnPoint.y);
             add(player);
             break;
+          case 'Fruit':
+            final fruit = Fruit(
+                fruitName: spawnPoint.name,
+                position: Vector2(spawnPoint.x, spawnPoint.y),
+                size: Vector2(spawnPoint.width, spawnPoint.height));
+            add(fruit);
+            break;
           default:
         }
       }
     }
   }
 
-  void _addCollisionsBlocks() {
+  void _addCollisionBlocks() {
     final collisions = level.tileMap.getLayer<ObjectGroup>('Collisions');
     if (collisions != null) {
       for (var collision in collisions.objects) {
@@ -65,11 +74,21 @@ class Level extends World {
 
   void _scrollBackground() {
     final backgroundLayer = level.tileMap.getLayer('Background');
+
     if (backgroundLayer != null) {
-      final backgroundColor =
-          backgroundLayer.properties.getValue('BackgroundColor');
-      final backgroundtile = BackgroundTile(color: backgroundColor ?? 'Gray');
-      add(backgroundtile);
+      const tileSize = 64;
+      final tilePerXlength = (game.size.x / tileSize).floor();
+      final tilePerYlength = (game.size.y / tileSize).floor();
+      for (double y = 1; y < tilePerYlength + 1; y++) {
+        for (double x = 1; x < tilePerXlength - 2; x++) {
+          final backgroundColor =
+              backgroundLayer.properties.getValue('BackgroundColor');
+          final backgroundtile = BackgroundTile(
+              color: backgroundColor ?? 'Gray',
+              position: Vector2(x * tileSize, y * tileSize));
+          add(backgroundtile);
+        }
+      }
     }
   }
 }

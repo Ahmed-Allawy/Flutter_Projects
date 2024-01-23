@@ -7,7 +7,7 @@ import 'package:flame_2d_game/levels.dart';
 import 'package:flutter/painting.dart';
 
 class MyGame extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks {
+    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   late final CameraComponent cam;
   final Player player = Player(characterName: 'Mask Dude');
   late final JoystickComponent joystick;
