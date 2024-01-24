@@ -5,11 +5,12 @@ import 'package:flame/components.dart';
 import 'package:flame_2d_game/check_collision.dart';
 import 'package:flame_2d_game/custom_hitbox.dart';
 import 'package:flame_2d_game/fruit.dart';
+import 'package:flame_2d_game/saw.dart';
 import 'package:flutter/services.dart';
 import '../collision_block.dart';
 import '../my_game.dart';
 
-enum PlayerState { idle, running, fall, hit, jump }
+enum PlayerState { idle, running, fall, hit, jump, appearing }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<MyGame>, KeyboardHandler, CollisionCallbacks {
@@ -20,6 +21,7 @@ class Player extends SpriteAnimationGroupComponent
   late SpriteAnimation fallAnimation;
   late SpriteAnimation hitAnimation;
   late SpriteAnimation jumpAnimation;
+  late SpriteAnimation appearingAnimation;
   late String characterName;
   int dx = 0;
   final double moveSpeed = 100;
@@ -28,28 +30,35 @@ class Player extends SpriteAnimationGroupComponent
   final double terminalYvelocity = 300;
   bool hasJumped = false;
   bool isGround = false;
+  bool gothit = false;
   Vector2 velocity = Vector2.zero();
   bool isFaceRight = true;
   List<CollisionBlock> collisionBlocks = [];
   CustomHitBox hitBox =
       CustomHitBox(offsetX: 10, offsetY: 4, width: 13, height: 26);
+  Vector2 startPosition = Vector2.zero();
   @override
   FutureOr<void> onLoad() {
+    startPosition = Vector2(position.x, position.y);
     _loadAllAnimations();
     add(RectangleHitbox(
         position: Vector2(hitBox.offsetX, hitBox.offsetY),
         size: Vector2(hitBox.width, hitBox.height)));
+
     // debugMode = true;
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
-    _updatePlayerState();
-    _updatePlayerPosition(dt);
-    _checkHorizontalCollision();
-    _applyGravity(dt);
-    _checkVerticalCollision();
+    if (!gothit) {
+      _updatePlayerState();
+      _updatePlayerPosition(dt);
+      _checkHorizontalCollision();
+      _applyGravity(dt);
+      _checkVerticalCollision();
+    }
+
     super.update(dt);
   }
 
@@ -71,8 +80,11 @@ class Player extends SpriteAnimationGroupComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is Fruit) {
+    if (other is Fruit && !gothit) {
       other.collisionWithPlayer();
+    }
+    if (other is Saw) {
+      _respawn();
     }
     super.onCollision(intersectionPoints, other);
   }
@@ -83,12 +95,14 @@ class Player extends SpriteAnimationGroupComponent
     fallAnimation = _spriteAnimation('Fall', 1);
     jumpAnimation = _spriteAnimation('Jump', 1);
     hitAnimation = _spriteAnimation('Hit', 7);
+    appearingAnimation = _spetialSpriteAnimation('Appearing', 7);
     animations = {
       PlayerState.idle: idleAnimation,
       PlayerState.running: runAnimation,
       PlayerState.hit: hitAnimation,
       PlayerState.jump: jumpAnimation,
       PlayerState.fall: fallAnimation,
+      PlayerState.appearing: appearingAnimation
     };
     current = PlayerState.idle;
   }
@@ -99,6 +113,16 @@ class Player extends SpriteAnimationGroupComponent
             .fromCache('Main Characters/$characterName/$state (32x32).png'),
         SpriteAnimationData.sequenced(
             amount: amount, stepTime: 0.05, textureSize: Vector2.all(32)));
+  }
+
+  SpriteAnimation _spetialSpriteAnimation(String state, int amount) {
+    return SpriteAnimation.fromFrameData(
+        game.images.fromCache('Main Characters/$state (96x96).png'),
+        SpriteAnimationData.sequenced(
+            amount: amount,
+            stepTime: 0.05,
+            textureSize: Vector2.all(96),
+            loop: false));
   }
 
   void _updatePlayerPosition(double dt) {
@@ -124,23 +148,41 @@ class Player extends SpriteAnimationGroupComponent
     // } else {
     //   current = PlayerState.idle;
     // }
-    if (velocity.y > 0) {
-      current = PlayerState.fall;
-    } else if (velocity.y < 0) {
-      current = PlayerState.jump;
-    } else if (dx != 0) {
-      current = PlayerState.running;
-      if (dx == -1 && isFaceRight == true) {
-        flipHorizontallyAroundCenter();
-        isFaceRight = false;
-      }
-      if (dx == 1 && isFaceRight == false) {
-        flipHorizontallyAroundCenter();
-        isFaceRight = true;
-      }
-    } else {
-      current = PlayerState.idle;
+    // if (velocity.y > 0) {
+    //   playerState = PlayerState.fall;
+    // } else if (velocity.y < 0) {
+    //   playerState = PlayerState.jump;
+    // } else if (dx != 0) {
+    //   playerState = PlayerState.running;
+    //   if (dx == -1 && isFaceRight == true) {
+    //     flipHorizontallyAroundCenter();
+    //     isFaceRight = false;
+    //   }
+    //   if (dx == 1 && isFaceRight == false) {
+    //     flipHorizontallyAroundCenter();
+    //     isFaceRight = true;
+    //   }
+    // } else {
+    //   current = playerState;
+    // }
+    PlayerState playerState = PlayerState.idle;
+
+    if (velocity.x < 0 && scale.x > 0) {
+      flipHorizontallyAroundCenter();
+    } else if (velocity.x > 0 && scale.x < 0) {
+      flipHorizontallyAroundCenter();
     }
+
+    // Check if moving, set running
+    if (velocity.x > 0 || velocity.x < 0) playerState = PlayerState.running;
+
+    // check if Falling set to falling
+    if (velocity.y > 0) playerState = PlayerState.fall;
+
+    // Checks if jumping, set to jumping
+    if (velocity.y < 0) playerState = PlayerState.jump;
+
+    current = playerState;
   }
 
   void _checkHorizontalCollision() {
@@ -189,12 +231,31 @@ class Player extends SpriteAnimationGroupComponent
         if (isCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            position.y = block.y - height;
+            position.y = block.y - hitBox.height - hitBox.offsetY;
             isGround = true;
             break;
           }
         }
       }
     }
+  }
+
+  void _respawn() {
+    const hitDelay = Duration(milliseconds: 400);
+    const appearingDelay = Duration(milliseconds: 400);
+    const canMoveDelay = Duration(milliseconds: 400);
+    gothit = true;
+    current = PlayerState.hit;
+    Future.delayed(hitDelay, () {
+      scale.x = 1;
+      position = startPosition - Vector2.all(32);
+      current = PlayerState.appearing;
+      Future.delayed(appearingDelay, () {
+        velocity = Vector2.zero();
+        position = startPosition;
+        _updatePlayerState();
+        Future.delayed(canMoveDelay, () => gothit = false);
+      });
+    });
   }
 }

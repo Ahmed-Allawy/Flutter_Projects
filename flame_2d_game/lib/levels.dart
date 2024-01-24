@@ -6,6 +6,7 @@ import 'package:flame_2d_game/characters/player.dart';
 import 'package:flame_2d_game/collision_block.dart';
 import 'package:flame_2d_game/fruit.dart';
 import 'package:flame_2d_game/my_game.dart';
+import 'package:flame_2d_game/saw.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 class Level extends World with HasGameRef<MyGame> {
@@ -42,6 +43,14 @@ class Level extends World with HasGameRef<MyGame> {
                 size: Vector2(spawnPoint.width, spawnPoint.height));
             add(fruit);
             break;
+          case 'Saw':
+            final saw = Saw(
+                isVertical: spawnPoint.properties.getValue('isVertical'),
+                offNeg: spawnPoint.properties.getValue('offNeg'),
+                offPos: spawnPoint.properties.getValue('offPos'),
+                position: Vector2(spawnPoint.x, spawnPoint.y),
+                size: Vector2(spawnPoint.width, spawnPoint.height));
+            add(saw);
           default:
         }
       }
