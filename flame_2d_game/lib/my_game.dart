@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_2d_game/characters/player.dart';
+import 'package:flame_2d_game/jump_button.dart';
 import 'package:flame_2d_game/levels.dart';
 import 'package:flutter/painting.dart';
 
@@ -12,7 +13,7 @@ class MyGame extends FlameGame
   late Player player;
   late final JoystickComponent joystick;
   bool isPC = true;
-  List<String> allLevelsNames = ['Level-02', 'Level-01'];
+  List<String> allLevelsNames = ['Level-01', 'Level-02'];
   int currentLevelIndex = 0;
   @override
   Color backgroundColor() => const Color(0xFF211F30);
@@ -22,6 +23,7 @@ class MyGame extends FlameGame
     _loadLevel();
     if (!isPC) {
       _addJoystick();
+      add(JumpButton());
     }
 
     return super.onLoad();

@@ -32,7 +32,6 @@ class Level extends World with HasGameRef<MyGame> {
     final palyerSpawnPoint = level.tileMap.getLayer<ObjectGroup>('Spawnpoints');
     if (palyerSpawnPoint != null) {
       for (var spawnPoint in palyerSpawnPoint.objects) {
-        print(spawnPoint.class_);
         switch (spawnPoint.class_) {
           case 'Player':
             player.position = Vector2(spawnPoint.x, spawnPoint.y);
@@ -94,19 +93,11 @@ class Level extends World with HasGameRef<MyGame> {
     final backgroundLayer = level.tileMap.getLayer('Background');
 
     if (backgroundLayer != null) {
-      const tileSize = 64;
-      final tilePerXlength = (game.size.x / tileSize).floor();
-      final tilePerYlength = (game.size.y / tileSize).floor();
-      for (double y = 1; y < tilePerYlength + 1; y++) {
-        for (double x = 1; x < tilePerXlength - 2; x++) {
-          final backgroundColor =
-              backgroundLayer.properties.getValue('BackgroundColor');
-          final backgroundtile = BackgroundTile(
-              color: backgroundColor ?? 'Gray',
-              position: Vector2(x * tileSize, y * tileSize));
-          add(backgroundtile);
-        }
-      }
+      final backgroundColor =
+          backgroundLayer.properties.getValue('BackgroundColor');
+      final backgroundtile = BackgroundTile(
+          color: backgroundColor ?? 'Gray', position: Vector2(0, 0));
+      add(backgroundtile);
     }
   }
 }

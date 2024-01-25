@@ -27,7 +27,7 @@ class Fruit extends SpriteAnimationComponent
     return super.onLoad();
   }
 
-  void collisionWithPlayer() {
+  void collisionWithPlayer() async {
     animation = SpriteAnimation.fromFrameData(
         game.images.fromCache('Items/Fruits/Collected.png'),
         SpriteAnimationData.sequenced(
@@ -35,6 +35,7 @@ class Fruit extends SpriteAnimationComponent
             stepTime: 0.05,
             textureSize: Vector2.all(32),
             loop: false));
-    Future.delayed(const Duration(milliseconds: 400), () => removeFromParent());
+    await animationTicker?.completed;
+    removeFromParent();
   }
 }
