@@ -8,22 +8,18 @@ import 'package:flutter/painting.dart';
 
 class MyGame extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
-  late final CameraComponent cam;
-  final Player player = Player(characterName: 'Mask Dude');
+  late CameraComponent cam;
+  late Player player;
   late final JoystickComponent joystick;
   bool isPC = true;
+  List<String> allLevelsNames = ['Level-02', 'Level-01'];
+  int currentLevelIndex = 0;
   @override
   Color backgroundColor() => const Color(0xFF211F30);
   @override
   Future<void> onLoad() async {
     await images.loadAllImages();
-    final level = Level(levelName: 'Level-01', player: player);
-    cam = CameraComponent.withFixedResolution(
-        width: 640, height: 368, world: level);
-    cam.viewfinder.anchor = Anchor.topLeft;
-    level.priority = 2;
-    cam.priority = 1;
-    addAll([cam, level]);
+    _loadLevel();
     if (!isPC) {
       _addJoystick();
     }
@@ -65,5 +61,24 @@ class MyGame extends FlameGame
       default:
         player.dx = 0;
     }
+  }
+
+  void loadNextLevel() {
+    if (currentLevelIndex < allLevelsNames.length - 1) {
+      currentLevelIndex++;
+      _loadLevel();
+    } else {}
+  }
+
+  void _loadLevel() {
+    player = Player(characterName: 'Mask Dude');
+    Level level =
+        Level(levelName: allLevelsNames[currentLevelIndex], player: player);
+    cam = CameraComponent.withFixedResolution(
+        width: 640, height: 368, world: level);
+    cam.viewfinder.anchor = Anchor.topLeft;
+    level.priority = 2;
+    cam.priority = 1;
+    addAll([cam, level]);
   }
 }

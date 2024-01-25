@@ -11,25 +11,30 @@
     "fileStates": {
         "Level-01.tmx": {
             "expandedObjectLayers": [
+                3,
                 2
             ],
             "scale": 2.159765625,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 227.33948272743717,
+                "x": 284.29010671007416,
                 "y": 181.7326822210165
             }
         },
         "Level-02.tmx": {
-            "scale": 1.429453125,
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 351.882822320599,
-                "y": 183.63666174782753
+                "x": 303.33333333333337,
+                "y": 183
             }
         },
         "Pixel Adventure.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 1.5
         }
     },
     "last.imagePath": "C:/Users/Spellthorn/Desktop/pixel_adventure/assets/images/Terrain",
@@ -43,7 +48,7 @@
         "Level-02.tmx"
     ],
     "project": "Pixel Adventure.tiled-project",
-    "property.type": "float",
+    "property.type": "string",
     "recentFiles": [
         "Level-02.tmx",
         "Level-01.tmx"

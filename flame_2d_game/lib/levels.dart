@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_2d_game/background.dart';
 import 'package:flame_2d_game/characters/player.dart';
+import 'package:flame_2d_game/checkpoint.dart';
 import 'package:flame_2d_game/collision_block.dart';
 import 'package:flame_2d_game/fruit.dart';
 import 'package:flame_2d_game/my_game.dart';
@@ -13,7 +14,7 @@ class Level extends World with HasGameRef<MyGame> {
   Level({required this.levelName, required this.player});
   late final String levelName;
   late TiledComponent level;
-  late final Player player;
+  late Player player;
   List<CollisionBlock> collisionBlocks = [];
   @override
   FutureOr<void> onLoad() async {
@@ -31,6 +32,7 @@ class Level extends World with HasGameRef<MyGame> {
     final palyerSpawnPoint = level.tileMap.getLayer<ObjectGroup>('Spawnpoints');
     if (palyerSpawnPoint != null) {
       for (var spawnPoint in palyerSpawnPoint.objects) {
+        print(spawnPoint.class_);
         switch (spawnPoint.class_) {
           case 'Player':
             player.position = Vector2(spawnPoint.x, spawnPoint.y);
@@ -51,6 +53,13 @@ class Level extends World with HasGameRef<MyGame> {
                 position: Vector2(spawnPoint.x, spawnPoint.y),
                 size: Vector2(spawnPoint.width, spawnPoint.height));
             add(saw);
+            break;
+          case 'Checkpoint':
+            final checkPoint = CheckPoint(
+                position: Vector2(spawnPoint.x, spawnPoint.y),
+                size: Vector2(spawnPoint.width, spawnPoint.height));
+            add(checkPoint);
+            break;
           default:
         }
       }
