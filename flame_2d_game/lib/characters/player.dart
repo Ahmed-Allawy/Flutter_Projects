@@ -10,6 +10,7 @@ import 'package:flame_2d_game/saw.dart';
 import 'package:flutter/services.dart';
 import '../collision_block.dart';
 import '../my_game.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 enum PlayerState { idle, running, fall, hit, jump, appearing, disappearing }
 
@@ -145,6 +146,8 @@ class Player extends SpriteAnimationGroupComponent
     // }
     //vertical position
     if (hasJumped && isGround) {
+      if (game.playSounds)
+        FlameAudio.play('jump.wav', volume: game.soundVolume);
       velocity.y = -jumpForce;
       position.y += velocity.y * dt;
       isGround = false;
@@ -251,6 +254,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _respawn() async {
+    if (game.playSounds) FlameAudio.play('hit.wav', volume: game.soundVolume);
     const canMoveDelay = Duration(milliseconds: 400);
     gotHit = true;
     current = PlayerState.hit;
@@ -272,6 +276,9 @@ class Player extends SpriteAnimationGroupComponent
 
   void _reachedCheckpoint() async {
     reachedCheckpoint = true;
+    if (game.playSounds) {
+      FlameAudio.play('disappear.wav', volume: game.soundVolume);
+    }
     if (scale.x > 0) {
       position = position - Vector2.all(32);
     } else {

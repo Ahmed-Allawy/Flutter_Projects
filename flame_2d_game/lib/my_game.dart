@@ -13,6 +13,8 @@ class MyGame extends FlameGame
   late Player player;
   late final JoystickComponent joystick;
   bool isPC = true;
+  bool playSounds = true;
+  double soundVolume = 1.0;
   List<String> allLevelsNames = ['Level-01', 'Level-02'];
   int currentLevelIndex = 0;
   @override
@@ -66,10 +68,14 @@ class MyGame extends FlameGame
   }
 
   void loadNextLevel() {
+    removeWhere((component) => component is Level);
     if (currentLevelIndex < allLevelsNames.length - 1) {
       currentLevelIndex++;
       _loadLevel();
-    } else {}
+    } else {
+      currentLevelIndex = 0;
+      _loadLevel();
+    }
   }
 
   void _loadLevel() {
