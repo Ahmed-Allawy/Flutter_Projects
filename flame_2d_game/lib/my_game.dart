@@ -14,8 +14,8 @@ class MyGame extends FlameGame
   late final JoystickComponent joystick;
   bool isPC = true;
   bool playSounds = true;
-  double soundVolume = 1.0;
-  List<String> allLevelsNames = ['Level-01', 'Level-02'];
+  double soundVolume = 0.5;
+  List<String> allLevelsNames = ['Level-01', 'Level-02', 'Level-03'];
   int currentLevelIndex = 0;
   @override
   Color backgroundColor() => const Color(0xFF211F30);

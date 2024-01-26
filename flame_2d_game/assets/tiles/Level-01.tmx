@@ -31,7 +31,7 @@
 24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24
 </data>
  </layer>
- <objectgroup id="2" name="Spawnpoints" visible="0">
+ <objectgroup id="2" name="Spawnpoints">
   <object id="4" name="Player" type="Player" x="123.37" y="222.61" width="32" height="32"/>
   <object id="21" name="Bananas" type="Fruit" x="80" y="80" width="32" height="32"/>
   <object id="22" name="Orange" type="Fruit" x="80" y="128" width="32" height="32"/>
@@ -52,10 +52,10 @@
    </properties>
   </object>
   <object id="36" type="Checkpoint" x="512" y="144" width="64" height="64"/>
-  <object id="37" name="Chicken" type="Chicken" x="336" y="272" width="32" height="32">
+  <object id="37" name="Virtual Guy" type="Enemy" x="336" y="272" width="32" height="32">
    <properties>
-    <property name="offNeg" type="float" value="12"/>
-    <property name="offPos" type="float" value="5"/>
+    <property name="offNeg" type="float" value="11"/>
+    <property name="offPos" type="float" value="4"/>
    </properties>
   </object>
   <object id="42" type="Saw" x="255.583" y="287.994" width="32.8739" height="30.0959">

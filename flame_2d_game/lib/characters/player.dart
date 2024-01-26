@@ -293,4 +293,12 @@ class Player extends SpriteAnimationGroupComponent
       game.loadNextLevel();
     });
   }
+
+  void collidedwithEnemy() {
+    _respawn();
+  }
+
+  void bouncePlayer() {
+    velocity.y = -260.0;
+  }
 }
