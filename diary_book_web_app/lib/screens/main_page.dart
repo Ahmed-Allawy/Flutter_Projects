@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -15,7 +16,8 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
         toolbarHeight: 100,
-        elevation: 4,
+        elevation: 7,
+        shadowColor: Colors.white,
         title: Row(
           children: [
             Text(
@@ -48,7 +50,100 @@ class _MainPageState extends State<MainPage> {
                   : Text(_dropMenuText!),
             ),
           ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundImage: NetworkImage(
+                      'https://th.bing.com/th/id/OIP.1EWHriZ_p9_4qefYN3_t3gHaFP?rs=1&pid=ImgDetMain'),
+                ),
+                Text(
+                  'Allawy',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.logout_outlined,
+              color: Colors.redAccent,
+            ),
+          ),
         ],
+      ),
+      body: Row(
+        children: [
+          Expanded(
+              flex: 1,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    shape: BoxShape.rectangle,
+                    border: const Border(
+                        right: BorderSide(width: 0.4, color: Colors.blueGrey))),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(38.0),
+                      child: SfDateRangePicker(
+                        onSelectionChanged: (dateRangePickerSelection) {},
+                      ),
+                    ),
+                    Card(
+                      elevation: 4,
+                      child: TextButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.add,
+                            size: 40,
+                            color: Colors.greenAccent,
+                          ),
+                          label: const Text(
+                            'Write New',
+                            style: TextStyle(color: Colors.green),
+                          )),
+                    ),
+                  ],
+                ),
+              )),
+          Expanded(
+              flex: 3,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Expanded(
+                        child: ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return const Card(
+                          shape: BeveledRectangleBorder(),
+                          elevation: 4.0,
+                          child: ListTile(
+                            title: Text('Allawy'),
+                          ),
+                        );
+                      },
+                    ))
+                  ],
+                ),
+              )),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Add',
+        shape: const CircleBorder(),
+        backgroundColor: Colors.green,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
