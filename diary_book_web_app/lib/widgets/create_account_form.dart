@@ -1,17 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diary_book_web_app/screens/main_page.dart';
-import 'package:diary_book_web_app/service/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../model/user.dart';
 import 'custom_input_decorator.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({
+class CreateAccountForm extends StatelessWidget {
+  CreateAccountForm({
     super.key,
   });
 
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
+  final TextEditingController nameTextController = TextEditingController();
   final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   @override
@@ -31,7 +33,7 @@ class LoginForm extends StatelessWidget {
                 height: 15,
               ),
               const Text(
-                'Sign in',
+                'Sign Up',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -39,6 +41,16 @@ class LoginForm extends StatelessWidget {
               ),
               const SizedBox(
                 height: 30,
+              ),
+              TextFormField(
+                validator: (value) {
+                  return value!.isEmpty ? 'plaease enter your name' : null;
+                },
+                controller: nameTextController,
+                decoration: customInputDecoration('name', 'ahmed'),
+              ),
+              const SizedBox(
+                height: 15,
               ),
               TextFormField(
                 validator: (value) {
@@ -71,14 +83,23 @@ class LoginForm extends StatelessWidget {
                       textStyle: const TextStyle(fontSize: 19)),
                   onPressed: () {
                     if (globalKey.currentState!.validate()) {
-                      // DiaryBookService()
-                      //     .login(emailTextController.text,
-                      //         passwordTextController.text)
+                      String email = emailTextController.text;
                       FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                              email: emailTextController.text,
+                          .createUserWithEmailAndPassword(
+                              email: email,
                               password: passwordTextController.text)
                           .then((value) {
+                        String uid = value.user!.uid;
+                        UserM user = UserM(
+                            name: email.toString().split('@')[0],
+                            image:
+                                'https://th.bing.com/th/id/OIP.1EWHriZ_p9_4qefYN3_t3gHaFP?rs=1&pid=ImgDetMain',
+                            profession: '',
+                            quote: '',
+                            uid: uid);
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .add(user.toMap());
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -86,7 +107,7 @@ class LoginForm extends StatelessWidget {
                       });
                     }
                   },
-                  child: const Text('Sign In')
+                  child: const Text('Create Account')
                   //  child: const Padding(
                   //   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   //   child: CircularProgressIndicator(

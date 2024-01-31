@@ -1,8 +1,8 @@
 import 'package:diary_book_web_app/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
-class WecomePage extends StatelessWidget {
-  const WecomePage({super.key});
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,13 @@ class WecomePage extends StatelessWidget {
             TextButton.icon(
               style: TextButton.styleFrom(
                   textStyle: const TextStyle(
-                      fontSize: 19, fontWeight: FontWeight.bold)),
-              icon: const Icon(Icons.login_outlined),
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              )),
+              icon: const Icon(Icons.login_outlined, color: Colors.green),
               label: const Text(
                 'Sign in to Get Started',
+                style: TextStyle(color: Colors.green),
               ),
               onPressed: () {
                 Navigator.push(context,
