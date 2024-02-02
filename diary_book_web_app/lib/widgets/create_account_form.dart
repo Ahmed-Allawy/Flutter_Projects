@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diary_book_web_app/screens/main_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:diary_book_web_app/service/service.dart';
 import 'package:flutter/material.dart';
-
-import '../model/user.dart';
 import 'custom_input_decorator.dart';
 
 class CreateAccountForm extends StatelessWidget {
@@ -83,23 +80,13 @@ class CreateAccountForm extends StatelessWidget {
                       textStyle: const TextStyle(fontSize: 19)),
                   onPressed: () {
                     if (globalKey.currentState!.validate()) {
-                      String email = emailTextController.text;
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: email,
-                              password: passwordTextController.text)
+                      String email = emailTextController.value.text;
+                      DiaryBookService()
+                          .createNewUser(
+                              email,
+                              passwordTextController.value.text,
+                              nameTextController.value.text)
                           .then((value) {
-                        String uid = value.user!.uid;
-                        UserM user = UserM(
-                            name: email.toString().split('@')[0],
-                            image:
-                                'https://th.bing.com/th/id/OIP.1EWHriZ_p9_4qefYN3_t3gHaFP?rs=1&pid=ImgDetMain',
-                            profession: '',
-                            quote: '',
-                            uid: uid);
-                        FirebaseFirestore.instance
-                            .collection('users')
-                            .add(user.toMap());
                         Navigator.push(
                             context,
                             MaterialPageRoute(

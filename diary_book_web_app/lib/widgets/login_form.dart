@@ -1,6 +1,5 @@
 import 'package:diary_book_web_app/screens/main_page.dart';
 import 'package:diary_book_web_app/service/service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'custom_input_decorator.dart';
@@ -71,13 +70,13 @@ class LoginForm extends StatelessWidget {
                       textStyle: const TextStyle(fontSize: 19)),
                   onPressed: () {
                     if (globalKey.currentState!.validate()) {
-                      // DiaryBookService()
-                      //     .login(emailTextController.text,
-                      //         passwordTextController.text)
-                      FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                              email: emailTextController.text,
-                              password: passwordTextController.text)
+                      DiaryBookService()
+                          .login(emailTextController.value.text,
+                              passwordTextController.value.text)
+                          // FirebaseAuth.instance
+                          //     .signInWithEmailAndPassword(
+                          //         email: emailTextController.value.text,
+                          //         password: passwordTextController.value.text)
                           .then((value) {
                         Navigator.push(
                             context,
