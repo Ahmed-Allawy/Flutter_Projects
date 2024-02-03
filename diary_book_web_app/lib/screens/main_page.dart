@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../widgets/user_profile.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -50,22 +52,7 @@ class _MainPageState extends State<MainPage> {
                   : Text(_dropMenuText!),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundImage: NetworkImage(
-                      'https://th.bing.com/th/id/OIP.1EWHriZ_p9_4qefYN3_t3gHaFP?rs=1&pid=ImgDetMain'),
-                ),
-                Text(
-                  'Allawy',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          ),
+          const UserProfile(),
           const Padding(
             padding: EdgeInsets.only(right: 8.0),
             child: Icon(

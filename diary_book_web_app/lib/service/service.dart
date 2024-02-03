@@ -22,9 +22,13 @@ class DiaryBookService {
   Future<String> createNewUser(
       String email, String password, String name) async {
     try {
+      // create user
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      return await saveUser(userCredential.user!.uid.toString(), name);
+      // save user data
+      await saveUser(userCredential.user!.uid.toString(), name);
+      // login user
+      return login(email, password);
     } on FirebaseAuthException catch (e) {
       return e.toString();
     } catch (e) {

@@ -80,10 +80,9 @@ class CreateAccountForm extends StatelessWidget {
                       textStyle: const TextStyle(fontSize: 19)),
                   onPressed: () {
                     if (globalKey.currentState!.validate()) {
-                      String email = emailTextController.value.text;
                       DiaryBookService()
                           .createNewUser(
-                              email,
+                              emailTextController.value.text,
                               passwordTextController.value.text,
                               nameTextController.value.text)
                           .then((value) {
