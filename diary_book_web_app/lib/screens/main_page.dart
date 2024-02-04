@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../widgets/user_profile.dart';
+import 'login_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -53,11 +55,21 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           const UserProfile(),
-          const Padding(
-            padding: EdgeInsets.only(right: 8.0),
-            child: Icon(
-              Icons.logout_outlined,
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.logout_outlined,
+              ),
               color: Colors.redAccent,
+              onPressed: () {
+                FirebaseAuth.instance.signOut().then((value) {
+                  return Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()));
+                });
+              },
             ),
           ),
         ],

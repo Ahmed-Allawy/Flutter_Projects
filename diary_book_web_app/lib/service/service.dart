@@ -47,4 +47,15 @@ class DiaryBookService {
     FirebaseFirestore.instance.collection('users').add(user.toMap());
     return '1';
   }
+
+  Future<void> updateUser(UserM currUser, String name, String imageUrl) async {
+    UserM newUserData = UserM(
+        name: name,
+        image: imageUrl,
+        uid: currUser.uid,
+        profession: currUser.profession,
+        quote: currUser.quote);
+    await userCollection.doc(currUser.id).update(newUserData.toMap());
+    return;
+  }
 }

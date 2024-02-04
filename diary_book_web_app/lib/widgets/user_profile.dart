@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diary_book_web_app/service/service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../model/user.dart';
 
 class UserProfile extends StatelessWidget {
@@ -55,23 +55,7 @@ class Profile extends StatelessWidget {
             onTap: () => showDialog(
               context: context,
               builder: (context) {
-                return AlertDialog(
-                  content: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.width * 0.2,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Editing ${user.name} profile',
-                          style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(166, 0, 0, 0)),
-                        )
-                      ],
-                    ),
-                  ),
-                );
+                return ProfileDialog(user: user);
               },
             ),
           ),
@@ -80,6 +64,70 @@ class Profile extends StatelessWidget {
             style: const TextStyle(color: Colors.grey),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ProfileDialog extends StatelessWidget {
+  const ProfileDialog({
+    super.key,
+    required this.user,
+  });
+
+  final UserM user;
+
+  @override
+  Widget build(BuildContext context) {
+    final imageUrlController = TextEditingController(text: user.image);
+    final nameController = TextEditingController(text: user.name);
+    return AlertDialog(
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.width * 0.15,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Editing ${user.name} profile',
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(166, 0, 0, 0)),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            TextFormField(
+              controller: imageUrlController,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: nameController,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextButton(
+                onPressed: () {
+                  DiaryBookService().updateUser(user, nameController.value.text,
+                      imageUrlController.value.text);
+                },
+                style: TextButton.styleFrom(
+                    elevation: 4,
+                    padding: const EdgeInsets.all(10.0),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    textStyle: const TextStyle(fontSize: 19)),
+                child: const Text('Update')),
+          ],
+        ),
       ),
     );
   }
