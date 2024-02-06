@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../model/user.dart';
 
-class DiaryBookService {
+class UserService {
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
@@ -36,7 +36,7 @@ class DiaryBookService {
     }
   }
 
-  Future<String> saveUser(String uid, name) async {
+  Future<String> saveUser(String uid, String name) async {
     UserM user = UserM(
         name: name,
         image:
@@ -44,7 +44,7 @@ class DiaryBookService {
         profession: '',
         quote: '',
         uid: uid);
-    FirebaseFirestore.instance.collection('users').add(user.toMap());
+    userCollection.add(user.toMap());
     return '1';
   }
 

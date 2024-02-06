@@ -1,5 +1,5 @@
 import 'package:diary_book_web_app/screens/main_page.dart';
-import 'package:diary_book_web_app/service/service.dart';
+import 'package:diary_book_web_app/service/user_service.dart';
 import 'package:flutter/material.dart';
 import 'custom_input_decorator.dart';
 
@@ -80,7 +80,7 @@ class CreateAccountForm extends StatelessWidget {
                       textStyle: const TextStyle(fontSize: 19)),
                   onPressed: () {
                     if (globalKey.currentState!.validate()) {
-                      DiaryBookService()
+                      UserService()
                           .createNewUser(
                               emailTextController.value.text,
                               passwordTextController.value.text,

@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diary_book_web_app/model/diary.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../widgets/user_profile.dart';
+import '../widgets/write_diary_dialog.dart';
 import 'login_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -96,7 +99,14 @@ class _MainPageState extends State<MainPage> {
                     Card(
                       elevation: 4,
                       child: TextButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const WriteDiaryDialog();
+                              },
+                            );
+                          },
                           icon: const Icon(
                             Icons.add,
                             size: 40,
@@ -116,19 +126,47 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    Expanded(
-                        child: ListView.builder(
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return const Card(
-                          shape: BeveledRectangleBorder(),
-                          elevation: 4.0,
-                          child: ListTile(
-                            title: Text('Allawy'),
-                          ),
-                        );
-                      },
-                    ))
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('diarys')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('something went wronge'));
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else {
+                            // get users from firestore
+                            final diaryListStream =
+                                snapshot.data!.docs.map((docs) {
+                              return DiaryM.fromDocument(docs);
+                            }).where((diary) {
+                              // return data of our user (logged user)
+                              return diary.userId ==
+                                  FirebaseAuth.instance.currentUser!.uid;
+                            }).toList();
+                            return Expanded(
+                                child: ListView.builder(
+                              itemCount: diaryListStream.length,
+                              itemBuilder: (context, index) {
+                                DiaryM diary = diaryListStream[index];
+                                return Card(
+                                  shape: const BeveledRectangleBorder(),
+                                  elevation: 4.0,
+                                  child: ListTile(
+                                    title: Text(diary.title!),
+                                  ),
+                                );
+                              },
+                            ));
+                          }
+                        }),
                   ],
                 ),
               )),
