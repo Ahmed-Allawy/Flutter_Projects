@@ -1,10 +1,15 @@
 import 'package:diary_book_web_app/service/diary_service.dart';
 import 'package:flutter/material.dart';
 
+import '../util/cach_helper.dart';
+import '../util/utils.dart';
+
 class WriteDiaryDialog extends StatelessWidget {
   const WriteDiaryDialog({
     super.key,
+    required this.date,
   });
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +42,12 @@ class WriteDiaryDialog extends StatelessWidget {
                       if (titleTextController.toString().isNotEmpty &&
                           thoughtsTextController.toString().isNotEmpty) {
                         DiaryService()
-                            .saveDiary(titleTextController.value.text,
-                                thoughtsTextController.value.text, '')
+                            .saveDiary(
+                                titleTextController.value.text,
+                                thoughtsTextController.value.text,
+                                '',
+                                date,
+                                CacheHelper.getData(key: 'userName'))
                             .then((value) => Navigator.of(context).pop());
                       }
                     },
@@ -81,7 +90,7 @@ class WriteDiaryDialog extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Feb 6, 2024'),
+                          Text(formatDate(date)),
                           Form(
                               child: Column(
                             children: [

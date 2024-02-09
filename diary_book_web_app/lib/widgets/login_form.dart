@@ -74,7 +74,7 @@ class LoginForm extends StatelessWidget {
                           .login(emailTextController.value.text,
                               passwordTextController.value.text)
                           .then((value) {
-                        Navigator.push(
+                        return Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const MainPage()));

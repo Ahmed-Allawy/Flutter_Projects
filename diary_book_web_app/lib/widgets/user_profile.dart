@@ -3,6 +3,7 @@ import 'package:diary_book_web_app/service/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../model/user.dart';
+import '../util/cach_helper.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({
@@ -27,6 +28,7 @@ class UserProfile extends StatelessWidget {
               return user.uid == FirebaseAuth.instance.currentUser!.uid;
             }).toList();
             UserM user = userListStream[0];
+            CacheHelper.saveData(key: 'userName', value: user.name);
             return Profile(user: user);
           }
         });

@@ -6,13 +6,13 @@ class DiaryService {
   CollectionReference diaryCollection =
       FirebaseFirestore.instance.collection('diarys');
 
-  Future<String> saveDiary(
-      String title, String thoughts, String photoUrl) async {
+  Future<String> saveDiary(String title, String thoughts, String photoUrl,
+      DateTime date, String name) async {
     DiaryM diary = DiaryM(
         userId: FirebaseAuth.instance.currentUser!.uid,
         title: title,
-        author: 'allawy',
-        entryPoint: Timestamp.fromDate(DateTime.now()),
+        author: name,
+        entryPoint: Timestamp.fromDate(date),
         photoUrl: photoUrl,
         entry: thoughts);
     diaryCollection.add(diary.toMap());

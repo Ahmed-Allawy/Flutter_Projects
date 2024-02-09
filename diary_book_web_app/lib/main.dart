@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diary_book_web_app/screens/login_page.dart';
+import 'package:diary_book_web_app/util/cach_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ void main() async {
           appId: '1:476480427256:web:95bd7c54b878722740170d',
           messagingSenderId: '476480427256',
           projectId: 'diarybookapp'));
+  CacheHelper.init();
   runApp(const MyApp());
 }
 
