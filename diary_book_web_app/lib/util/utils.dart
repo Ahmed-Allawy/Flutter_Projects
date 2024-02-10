@@ -1,21 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
 String formatDate(DateTime date) {
-  return '${getMonth(date.month)} ${date.day}, ${date.year}';
+  return DateFormat.yMMMd().format(date);
 }
 
-String getMonth(month) {
-  List monthName = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
-  return monthName[month - 1];
+String formatDateFromTimestamp(Timestamp timestamp) {
+  return DateFormat.yMMMMd().add_EEEE().format(timestamp.toDate());
+}
+
+String formatDateFromTimestampHour(Timestamp timestamp) {
+  return DateFormat.jm().format(timestamp.toDate());
 }

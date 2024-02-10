@@ -18,7 +18,7 @@ class DiaryListView extends StatelessWidget {
           if (snapshot.hasError) {
             return const Center(child: Text('something went wronge'));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: LinearProgressIndicator());
           } else {
             // get users from firestore
             final diaryListStream = snapshot.data!.docs.map((docs) {
@@ -46,7 +46,7 @@ class DiaryListView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            formatDate(diary.entryPoint!.toDate()),
+                            formatDateFromTimestamp(diary.entryPoint!),
                             style: const TextStyle(
                                 color: Colors.blueGrey,
                                 fontSize: 18,
@@ -62,9 +62,9 @@ class DiaryListView extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                'Date...',
-                                style: TextStyle(color: Colors.green),
+                              Text(
+                                '• ${formatDateFromTimestampHour(diary.entryPoint!)}',
+                                style: const TextStyle(color: Colors.green),
                               ),
                               IconButton(
                                   onPressed: () {},
