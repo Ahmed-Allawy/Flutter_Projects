@@ -1,10 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:diary_book_web_app/service/diary_service.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 import '../util/cach_helper.dart';
 import '../util/utils.dart';
 
-class WriteDiaryDialog extends StatelessWidget {
+class WriteDiaryDialog extends StatefulWidget {
   const WriteDiaryDialog({
     super.key,
     required this.date,
@@ -12,10 +15,18 @@ class WriteDiaryDialog extends StatelessWidget {
   final DateTime date;
 
   @override
+  State<WriteDiaryDialog> createState() => _WriteDiaryDialogState();
+}
+
+class _WriteDiaryDialogState extends State<WriteDiaryDialog> {
+  Uint8List? fileBytes;
+  Image? imageWidget;
+  @override
   Widget build(BuildContext context) {
     final TextEditingController titleTextController = TextEditingController();
     final TextEditingController thoughtsTextController =
         TextEditingController();
+
     return AlertDialog(
       content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.4,
@@ -46,7 +57,7 @@ class WriteDiaryDialog extends StatelessWidget {
                                 titleTextController.value.text,
                                 thoughtsTextController.value.text,
                                 '',
-                                date,
+                                widget.date,
                                 CacheHelper.getData(key: 'userName'))
                             .then((value) => Navigator.of(context).pop());
                       }
@@ -78,7 +89,9 @@ class WriteDiaryDialog extends StatelessWidget {
                         children: [
                           IconButton(
                               splashRadius: 26,
-                              onPressed: () {},
+                              onPressed: () async {
+                                await getMultipleImageInfos();
+                              },
                               icon: const Icon(Icons.image)),
                         ],
                       ),
@@ -90,18 +103,19 @@ class WriteDiaryDialog extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(formatDate(date)),
+                          Text(formatDate(widget.date)),
                           Form(
                               child: Column(
                             children: [
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.40,
-                                child: Container(
-                                  width: 550,
-                                  color: Colors.green,
-                                  child: const Text('image show space'),
-                                ),
+                                child: imageWidget,
+                                //  Container(
+                                //   width: 550,
+                                //   color: Colors.green,
+                                //   child: const Text('image show space'),
+                                // ),
                               ),
                               TextField(
                                 controller: titleTextController,
@@ -125,5 +139,18 @@ class WriteDiaryDialog extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> getMultipleImageInfos() async {
+    var mediaData = await ImagePickerWeb.getImageInfo;
+    // String mimeType = mime(Path.basename(mediaData.fileName));
+    // html.File mediaFile =
+    //     new html.File(mediaData.data, mediaData.fileName, {'type': mimeType});
+
+    setState(() {
+      // _cloudFile = mediaFile;
+      fileBytes = mediaData!.data;
+      imageWidget = Image.memory(mediaData.data!);
+    });
   }
 }
