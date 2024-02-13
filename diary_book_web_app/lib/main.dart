@@ -11,7 +11,8 @@ void main() async {
           apiKey: 'AIzaSyBPxR-ocLV3NkytDx3qYAnN-0_sy8oFAQE',
           appId: '1:476480427256:web:95bd7c54b878722740170d',
           messagingSenderId: '476480427256',
-          projectId: 'diarybookapp'));
+          projectId: 'diarybookapp',
+          storageBucket: 'diarybookapp.appspot.com'));
   CacheHelper.init();
   runApp(const MyApp());
 }

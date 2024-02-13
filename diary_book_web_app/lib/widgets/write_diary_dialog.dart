@@ -52,14 +52,17 @@ class _WriteDiaryDialogState extends State<WriteDiaryDialog> {
                     onPressed: () {
                       if (titleTextController.toString().isNotEmpty &&
                           thoughtsTextController.toString().isNotEmpty) {
-                        DiaryService()
-                            .saveDiary(
-                                titleTextController.value.text,
-                                thoughtsTextController.value.text,
-                                '',
-                                widget.date,
-                                CacheHelper.getData(key: 'userName'))
-                            .then((value) => Navigator.of(context).pop());
+                        DiaryService().storeImage(fileBytes!).then((imageUrl) {
+                          print('image url is $imageUrl');
+                          return DiaryService()
+                              .saveDiary(
+                                  titleTextController.value.text,
+                                  thoughtsTextController.value.text,
+                                  imageUrl,
+                                  widget.date,
+                                  CacheHelper.getData(key: 'userName'))
+                              .then((value) => Navigator.of(context).pop());
+                        });
                       }
                     },
                     style: TextButton.styleFrom(

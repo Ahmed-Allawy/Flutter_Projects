@@ -93,7 +93,9 @@ class DiaryList extends StatelessWidget {
                       width: 400,
                       height: 350,
                       child: Image.network(
-                        'https://th.bing.com/th/id/OIP.mbFQvdrQ4NeIJFp-6rNE9QHaEq?rs=1&pid=ImgDetMain',
+                        (diary.photoUrl == null || diary.photoUrl!.isEmpty)
+                            ? 'https://th.bing.com/th/id/OIP.mbFQvdrQ4NeIJFp-6rNE9QHaEq?rs=1&pid=ImgDetMain'
+                            : diary.photoUrl!,
                         fit: BoxFit.fill,
                       )),
                   Row(
