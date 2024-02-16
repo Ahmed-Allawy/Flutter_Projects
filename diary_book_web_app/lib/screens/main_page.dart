@@ -23,7 +23,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
         toolbarHeight: 100,
-        elevation: 7,
+        elevation: 70,
         shadowColor: Colors.white,
         title: Row(
           children: [

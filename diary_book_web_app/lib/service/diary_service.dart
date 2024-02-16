@@ -43,4 +43,8 @@ class DiaryService {
       });
     });
   }
+
+  Future<void> deleteDiary(String diaryID) async {
+    diaryCollection.doc(diaryID).delete();
+  }
 }

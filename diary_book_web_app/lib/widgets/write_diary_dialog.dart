@@ -53,7 +53,6 @@ class _WriteDiaryDialogState extends State<WriteDiaryDialog> {
                       if (titleTextController.toString().isNotEmpty &&
                           thoughtsTextController.toString().isNotEmpty) {
                         DiaryService().storeImage(fileBytes!).then((imageUrl) {
-                          print('image url is $imageUrl');
                           return DiaryService()
                               .saveDiary(
                                   titleTextController.value.text,
