@@ -1,3 +1,4 @@
+import 'package:diary_book_web_app/widgets/edit_entry_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../model/diary.dart';
@@ -15,37 +16,40 @@ class ShowEntryDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.05,
+      title: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05,
+        ),
+        child: Row(
+          children: [
+            Text(
+              formatDateFromTimestamp(diary.entryPoint!),
+              style: const TextStyle(
+                  color: Colors.blueGrey,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             ),
-            child: Row(
-              children: [
-                Text(
-                  formatDateFromTimestamp(diary.entryPoint!),
-                  style: const TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-                IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      showDialog(
-                          context: context,
-                          builder: (context) =>
-                              DeleteEntryDialog(diaryID: diary.id!));
-                    },
-                    icon: const Icon(Icons.delete_forever)),
-              ],
-            ),
-          )
-        ],
+            const Spacer(),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) => EditDiaryDialog(diary: diary),
+                  );
+                },
+                icon: const Icon(Icons.edit)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                      context: context,
+                      builder: (context) =>
+                          DeleteEntryDialog(diaryID: diary.id!));
+                },
+                icon: const Icon(Icons.delete_forever)),
+          ],
+        ),
       ),
       content: ListTile(
         subtitle: Column(

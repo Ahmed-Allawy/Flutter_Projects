@@ -47,4 +47,22 @@ class DiaryService {
   Future<void> deleteDiary(String diaryID) async {
     diaryCollection.doc(diaryID).delete();
   }
+
+  Future<void> updateDiary(
+    DiaryM currDiary,
+    String title,
+    String thoughts,
+    String photoUrl,
+  ) async {
+    DiaryM newDiary = DiaryM(
+        userId: currDiary.userId,
+        title: title,
+        author: currDiary.author,
+        entryPoint: Timestamp.fromDate(DateTime.now()),
+        photoUrl: photoUrl,
+        entry: thoughts,
+        id: currDiary.id);
+    await diaryCollection.doc(currDiary.id).update(newDiary.toMap());
+    return;
+  }
 }
