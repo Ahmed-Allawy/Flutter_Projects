@@ -12,3 +12,7 @@ String formatDateFromTimestamp(Timestamp timestamp) {
 String formatDateFromTimestampHour(Timestamp timestamp) {
   return DateFormat.jm().format(timestamp.toDate());
 }
+
+String formatDateFromTimestampDay(Timestamp timestamp) {
+  return DateFormat.d().format(timestamp.toDate());
+}

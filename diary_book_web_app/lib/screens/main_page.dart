@@ -16,6 +16,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String? _dropMenuText;
+  DateTime currentDate = DateTime.now();
   DateTime date = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -96,6 +97,11 @@ class _MainPageState extends State<MainPage> {
                         onSelectionChanged: (dateRangePickerSelection) {
                           setState(() {
                             date = dateRangePickerSelection.value;
+                            date = date.add(Duration(
+                                hours: currentDate.hour,
+                                minutes: currentDate.minute,
+                                seconds: currentDate.second,
+                                milliseconds: currentDate.millisecond));
                           });
                         },
                       ),
@@ -126,20 +132,32 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
               )),
-          const Expanded(
+          Expanded(
               flex: 3,
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  DiaryListView(),
+                  DiaryListView(
+                    date: date,
+                    latest: _dropMenuText == 'Latest' ? true : false,
+                  ),
                 ],
               )),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return WriteDiaryDialog(
+                date: date,
+              );
+            },
+          );
+        },
         tooltip: 'Add',
         shape: const CircleBorder(),
         backgroundColor: Colors.green,
