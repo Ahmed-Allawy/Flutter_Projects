@@ -58,7 +58,7 @@ class DiaryService {
         userId: currDiary.userId,
         title: title,
         author: currDiary.author,
-        entryPoint: Timestamp.fromDate(DateTime.now()),
+        entryPoint: currDiary.entryPoint,
         photoUrl: photoUrl,
         entry: thoughts,
         id: currDiary.id);
