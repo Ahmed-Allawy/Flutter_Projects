@@ -5,13 +5,9 @@ import 'package:flutter/material.dart';
 import 'custom_input_decorator.dart';
 
 class LoginForm extends StatelessWidget {
-  LoginForm({
+  const LoginForm({
     super.key,
   });
-
-  final TextEditingController emailTextController = TextEditingController();
-  final TextEditingController passwordTextController = TextEditingController();
-  final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

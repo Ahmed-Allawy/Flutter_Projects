@@ -4,17 +4,13 @@ import 'package:flutter/material.dart';
 import 'custom_input_decorator.dart';
 
 class CreateAccountForm extends StatelessWidget {
-  CreateAccountForm({
+  const CreateAccountForm({
     super.key,
   });
 
-  final TextEditingController emailTextController = TextEditingController();
-  final TextEditingController passwordTextController = TextEditingController();
-  final TextEditingController nameTextController = TextEditingController();
-  final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameTextController = TextEditingController();
     final TextEditingController emailTextController = TextEditingController();
     final TextEditingController passwordTextController =
         TextEditingController();

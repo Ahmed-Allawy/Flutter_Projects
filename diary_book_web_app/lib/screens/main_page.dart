@@ -22,10 +22,11 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.grey.shade100,
         toolbarHeight: 100,
         elevation: 70,
-        shadowColor: Colors.white,
+        shadowColor: const Color.fromARGB(94, 255, 255, 255),
         title: Row(
           children: [
             Text(

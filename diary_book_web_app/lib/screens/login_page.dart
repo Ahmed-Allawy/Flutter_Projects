@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Container(
               color: const Color(0xFFB9C2D1),
             )),
-        isCreatedAccountClicked ? CreateAccountForm() : LoginForm(),
+        isCreatedAccountClicked ? const CreateAccountForm() : const LoginForm(),
         const SizedBox(
           height: 30,
         ),
