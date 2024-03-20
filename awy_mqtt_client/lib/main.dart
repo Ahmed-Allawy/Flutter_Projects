@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
             return connected
                 ? clientState
                     ? const MainScreen()
-                    : BrokerConfigScreen()
+                    : const BrokerConfigScreen()
                 : const Scaffold(
                     body: Center(
                       child: Text("you are offline!"),

@@ -82,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          BrokerConfigScreen()));
+                                          const BrokerConfigScreen()));
                             },
                           ),
                           InkWell(

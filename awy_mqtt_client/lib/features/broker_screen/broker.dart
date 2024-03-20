@@ -2,14 +2,11 @@
 
 import 'package:awy_mqtt_client/features/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'package:mqtt_client/mqtt_server_client.dart';
-
 import '../../core/util/shared.dart';
 import '../../core/widgets/custom_decoration.dart';
 
 class BrokerConfigScreen extends StatelessWidget {
-  BrokerConfigScreen({super.key});
+  const BrokerConfigScreen({super.key});
   @override
   Widget build(BuildContext context) {
     final TextEditingController brokerController = TextEditingController();
