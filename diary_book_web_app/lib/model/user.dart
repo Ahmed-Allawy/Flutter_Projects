@@ -10,7 +10,6 @@ class UserM {
 
   UserM(
       {this.name, this.image, this.profession, this.uid, this.quote, this.id});
-
   factory UserM.fromDocument(QueryDocumentSnapshot data) {
     return UserM(
         name: data.get('name'),
