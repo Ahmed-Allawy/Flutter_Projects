@@ -70,10 +70,10 @@
   </object>
   <object id="46" x="191.333" y="452.667" width="0.666667"/>
  </objectgroup>
- <objectgroup id="3" name="Collisions" visible="0">
+ <objectgroup id="3" name="Collisions">
   <object id="24" x="54.6667" y="55.3333" width="532" height="10"/>
   <object id="26" x="54" y="53.3333" width="9.33333" height="259.333"/>
-  <object id="27" x="51.3333" y="303.333" width="534" height="10"/>
+  <object id="27" x="51.3333" y="303.333" width="534" height="16"/>
   <object id="28" x="576" y="54" width="13.3333" height="261.333"/>
   <object id="29" x="64" y="223.333" width="15.3333" height="32.6667"/>
   <object id="30" x="80.6667" y="254.667" width="30.6667" height="47.3333"/>
