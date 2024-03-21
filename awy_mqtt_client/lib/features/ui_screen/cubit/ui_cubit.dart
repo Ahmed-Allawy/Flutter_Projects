@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -19,6 +17,10 @@ class UICubit extends Cubit<UIState> {
     _p.clear();
   }
 
+  // void dumyData(String data) {
+  //   print(data);
+  // }
+
   void getDataAndTopic(List<MqttReceivedMessage<MqttMessage>> event) {
     final MqttPublishMessage message = event[0].payload as MqttPublishMessage;
     final data =
@@ -32,19 +34,38 @@ class UICubit extends Cubit<UIState> {
     SaleChartData(3, 45),
     SaleChartData(4, 35),
   ];
+  bool light = false;
+  bool tv = false;
+  bool switchOne = false;
+  bool switchTwo = false;
   String temperature = '30';
   String humidity = '70';
+
   void routeData(String topic, String data) {
-    if (topic == Topics.light1LivingRoomTopic) {
-    } else if (topic == Topics.fanLivingRoomTopic) {
-    } else if (topic == Topics.tvLivingRoomTopic) {
-    } else if (topic == Topics.airLivingRoomTopic) {
+    if (topic == Topics.lightTopic) {
+      light = bool.parse(data);
+    } else if (topic == Topics.tvTopic) {
+      tv = bool.parse(data);
+    } else if (topic == Topics.switchOneTopic) {
+      switchOne = bool.parse(data);
+    } else if (topic == Topics.switchTwoTopic) {
+      switchTwo = bool.parse(data);
     } else if (topic == Topics.temperatureTopic) {
-      if (chartDataSource.length > 10) {
-        chartDataSource.removeAt(0);
-      }
+      // if (chartDataSource.length <= 5) {
+      //   chartDataSource.add(
+      //       SaleChartData((chartDataSource.length + 1), double.parse(data)));
+      // } else {
+      //   chartDataSource.removeAt(0);
+      //   chartDataSource.add(
+      //       SaleChartData((chartDataSource.length + 1), double.parse(data)));
+      // }
+
+      // print(chartDataSource.length);
       chartDataSource
           .add(SaleChartData((chartDataSource.length + 1), double.parse(data)));
+      // if (chartDataSource.length >= 10) {
+      //   chartDataSource.removeAt(0);
+      // }
       temperature = data;
     } else if (topic == Topics.humidityTopic) {
       humidity = data;
@@ -55,6 +76,6 @@ class UICubit extends Cubit<UIState> {
 
 class SaleChartData {
   SaleChartData(this.x, this.y);
-  final double x;
+  final int x;
   final double y;
 }

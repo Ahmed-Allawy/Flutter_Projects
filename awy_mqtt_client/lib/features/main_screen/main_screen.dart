@@ -122,8 +122,10 @@ class _MainScreenState extends State<MainScreen> {
       return await client.connect(userName, password).then((value) {
         if (value!.state == MqttConnectionState.connected) {
           client.connectionStatus!.state = MqttConnectionState.connected;
+          // print('broker is connected, ${value.state}');
           return true;
         } else {
+          // print('broker is disconnected, ${value.state}');
           return false;
         }
       });

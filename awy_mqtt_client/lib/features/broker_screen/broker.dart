@@ -71,9 +71,9 @@ class BrokerConfigScreen extends StatelessWidget {
                 SizedBox(
                     width: 300,
                     child: TextFormField(
-                      obscureText: true,
                       controller: userNameController,
-                      decoration: customInputDecoration('UserName', ''),
+                      decoration:
+                          customInputDecoration('UserName [optional]', ''),
                     )),
                 const SizedBox(
                   height: 15,
@@ -81,8 +81,10 @@ class BrokerConfigScreen extends StatelessWidget {
                 SizedBox(
                     width: 300,
                     child: TextFormField(
+                      obscureText: true,
                       controller: passwordController,
-                      decoration: customInputDecoration('Password', ''),
+                      decoration:
+                          customInputDecoration('Password [optional]', ''),
                     )),
                 const SizedBox(
                   height: 25,

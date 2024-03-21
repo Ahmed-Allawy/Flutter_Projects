@@ -1,8 +1,8 @@
 class Topics {
-  static const String light1LivingRoomTopic = "home/livingRoom/light1";
-  static const String fanLivingRoomTopic = "home/livingRoom/fan";
-  static const String tvLivingRoomTopic = "home/livingRoom/tv";
-  static const String airLivingRoomTopic = "home/livingRoom/air";
-  static const String temperatureTopic = "AWYcleint/temperature";
-  static const String humidityTopic = "AWYcleint/humidity";
+  static const String lightTopic = "Phone/AWYclient/light";
+  static const String switchOneTopic = "Phone/AWYclient/switchOne";
+  static const String tvTopic = "Phone/AWYclient/tv";
+  static const String switchTwoTopic = "Phone/AWYclient/switchTwo";
+  static const String temperatureTopic = "Phone/AWYclient/temperature";
+  static const String humidityTopic = "Phone/AWYclient/humidity";
 }

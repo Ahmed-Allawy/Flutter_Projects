@@ -17,7 +17,7 @@ class DevicesCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.all(15.0),
       shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      color: const Color.fromARGB(230, 244, 67, 54),
+      color: Colors.white,
       elevation: 20,
       child: Column(
         children: [
