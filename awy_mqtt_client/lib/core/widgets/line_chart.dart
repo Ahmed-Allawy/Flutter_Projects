@@ -17,13 +17,14 @@ class LineChartWidget extends StatelessWidget {
             interval: 5,
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             title: AxisTitle(
-                text: "temperature",
-                textStyle: TextStyle(color: Colors.black))),
+              text: "temperature",
+            )),
         primaryXAxis: const NumericAxis(
             interval: 1,
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             title: AxisTitle(
-                text: "time", textStyle: TextStyle(color: Colors.black))),
+              text: "time",
+            )),
         series: [
           LineSeries<SaleChartData, int>(
             color: Colors.deepPurple,

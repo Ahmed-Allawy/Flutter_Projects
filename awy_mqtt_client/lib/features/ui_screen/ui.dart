@@ -46,7 +46,7 @@ class _AdvancedUiScreenState extends State<AdvancedUiScreen> {
         ),
         centerTitle: true,
         title: const Text(
-          'Advanced Ui',
+          'Dashboard',
           style: TextStyle(
             color: Colors.deepPurple,
           ),

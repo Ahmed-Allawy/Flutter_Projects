@@ -6,7 +6,7 @@ class Assets {
   static const String brokerConfigImg = "assets/images/config.jpeg";
   static const String uiImg = "assets/images/ui.jpg";
   static const String menuImg = "assets/icons/menu.png";
-  static const String livingRoomImg = "assets/images/living_room.jpg";
+  static const String mainScreenImg = "assets/images/mqtt-logo.png";
   static const String kitchenRoomImg = "assets/images/kitchen.jpeg";
   static const String bedRoomImg = "assets/images/bedroom.jpg";
   static const String bathRoomImg = "assets/images/bathroom.jpg";

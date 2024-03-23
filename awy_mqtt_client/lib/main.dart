@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        theme: ThemeData(
+            textTheme:
+                const TextTheme(bodyMedium: TextStyle(color: Colors.deepPurple))),
         debugShowCheckedModeBanner: false,
         home: OfflineBuilder(
           connectivityBuilder: (

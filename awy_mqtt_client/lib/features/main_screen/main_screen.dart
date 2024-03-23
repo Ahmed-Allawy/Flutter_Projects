@@ -3,6 +3,7 @@
 import 'package:awy_mqtt_client/core/util/assets.dart';
 import 'package:awy_mqtt_client/core/widgets/custom_box.dart';
 import 'package:awy_mqtt_client/features/broker_screen/broker.dart';
+import 'package:awy_mqtt_client/features/sensors_screen/proximity_sensor/proximity_sensor.dart';
 import 'package:awy_mqtt_client/features/ui_screen/ui.dart';
 import 'package:awy_mqtt_client/features/user_input_screen/user_input.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           InkWell(
                             child: const CustomBox(
-                                name: 'Advanced Ui',
+                                name: 'Dashboard',
                                 img: Assets.uiImg,
                                 effect: true),
                             onTap: () {
@@ -99,10 +100,18 @@ class _MainScreenState extends State<MainScreen> {
                                           )));
                             },
                           ),
-                          const CustomBox(
-                              name: 'Mobile Sensors',
-                              img: Assets.sensorsImg,
-                              effect: false),
+                          InkWell(
+                            child: const CustomBox(
+                                name: 'Mobile Sensors',
+                                img: Assets.sensorsImg,
+                                effect: false),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Proximity()));
+                            },
+                          ),
                         ],
                       ),
                     ),
